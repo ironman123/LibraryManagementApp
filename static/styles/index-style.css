@@ -1,0 +1,27 @@
+.body-container.index-page {
+    background-image: url('../images/bgtransparent.png');
+    background-color: rgba(255, 255, 255, 0.5);
+    color: rgb(31, 41, 55);
+    display: flex;
+    min-height: 86.75vh;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.body-content {
+    display: flex;
+    justify-content: space-around;
+    width: 50%;
+    height: auto;
+}
+
+.detail-form {
+    background-color: rgba(146, 199, 207, 0.749);
+    padding: 5vh;
+    border-radius: 10px;
+}
+
+.body-left .cat {
+    width: 60%;
+    height: auto;
+}

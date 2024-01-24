@@ -1,0 +1,26 @@
+.register-page.detail-form {
+    padding: 3vh;
+    display: flex;
+    width: 90vh;
+    flex-direction: column;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    width: 90vh;
+    height: auto;
+}
+
+.register-box{
+    min-height: 25em;
+}
+
+.body-container.register-page {
+    background-image: url('../images/bgtransparent.png');
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #1f2937;
+    display: flex;
+    min-height: 86.75vh;
+    justify-content: center;
+}

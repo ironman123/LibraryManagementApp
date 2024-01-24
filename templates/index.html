@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block head %}
+    <title>Home</title>
+    <link href="../static/styles/index-style.css" rel="stylesheet">
+{% endblock %}
+{% block userButton %}
+    <a href="{{url_for('register')}}" style="text-decoration: none; color:white; text-align: center;">
+        <div class="nav-item btn btn-primary">
+            Register
+        </div>
+    </a>
+{% endblock %}
+{% block body %}
+    <div class = "body-container index-page">
+        <div class = "body-left body-content">
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div class = "glow-text" style="text-shadow: 0 0 3px currentColor; margin-bottom: 9px;">Welcome to NikoLib</div>
+                <img class="index-image cat" src="../static/images/cat-book.png" style="align-items: center;">
+            </div>
+        </div>
+        <div class ="body-right body-content">
+            <form class = "index-page detail-form glow-bg" action = "/" method="post">
+                <div class="glow-text">Sign In</div>
+                <div class="mb-3">
+                  <label for="user-name" class="form-label">Email address</label>
+                  <input type="email" class="form-control" id="user-name" name = "userName" placeholder = "user@email.com">
+                  {% if 1 %}
+                  <div class="error-text">Username required</div>
+                  {% endif %}
+                </div>
+                <div class="mb-3">
+                  <label for="user-password" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="user-password" name = "password" placeholder = "Password">
+                  {% if 1 %}
+                  <div class="error-text">Password required</div>
+                  {% endif %}
+                  {% if 1 %}
+                  <div class="error-text">User does not exists</div>
+                  {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+        </div>
+    </div>
+{% endblock %}

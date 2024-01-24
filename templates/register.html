@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block head %}
+    <title>Register</title>
+    <link href="../static/styles/register-style.css" rel="stylesheet">
+{% endblock %}
+{% block userButton %}
+    <a href="{{url_for('index')}}" style="text-decoration: none; color:white; text-align: center;">
+        <div class="nav-item btn btn-primary">
+            Login
+        </div>
+    </a>
+{% endblock %}
+{% block body %}
+    <div class = "body-container register-page">
+        <div class="register-box glow-bg">
+            <form action = "/register" method = "post" class="register-page detail-form">
+              <div class="glow-text">Register</div>
+              <div class="row">
+                  <div class="col">
+                      <div class="mb-3">
+                          <label for="register-firstname" class="form-label">First Name</label>
+                          <input type="text" class="form-control" id="register-firstname" name="firstname" placeholder="First Name" value="{{ firstname }}">
+                          {% if fNameError %}
+                          <div class="error-text">{{fNameError}}</div>
+                          {% endif %}
+                      </div>
+                  </div>
+                  <div class="col">
+                      <div class="mb-3">
+                          <label for="register-lastname" class="form-label">Last Name</label>
+                          <input type="text" class="form-control" id="register-lastname" name="lastname" placeholder="Last Name" value="{{ lastname }}">
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col">
+                      <div class="mb-3">
+                          <label for="register-email" class="form-label">Email</label>
+                          <input type="text" class="form-control" id="register-email" placeholder="abcd@example.com" name="email" value="{{ email }}">
+                            {% if emailError %}
+                            <div class="error-text">{{emailError}}</div>
+                            {% endif %}
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col">
+                      <div class="mb-3">
+                          <label for="register-password" class="form-label">Password</label>
+                          <input type="password" class="form-control" id="register-password" placeholder="Password" name="password" value="{{ password }}">
+                              {% if passwordError %}
+                              <div class="error-text">{{passwordError}}</div>
+                              {% endif %}
+                      </div>
+                  </div>
+                  <div class="col">
+                      <div class="mb-3">
+                          <label for="register-repassword" class="form-label">Confirm Password</label>
+                          <input type="password" class="form-control" id="register-repassword" placeholder="Password" name="repassword" value="{{ repassword }}">
+                              {% if rePasswordError %}
+                              <div class="error-text">{{rePasswordError}}</div>
+                              {% endif %}
+                              {% if passwordError %}
+                              <div class="error-text">{{passwordError}}</div>
+                              {% endif %}
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="col">
+                      <div class="mb-3" style="display: flex;justify-content: center;">
+                          <input type="submit" class="btn btn-primary"  value="Submit">
+                      </div>
+                  </div>
+              </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
