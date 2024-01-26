@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+#Relations
 class Favorite(db.Model):
     __tablename__ = "favorite"
     id = db.Column(db.Integer(),primary_key= True)
@@ -13,6 +14,12 @@ class Book_Author(db.Model):
     book_id = db.Column(db.Integer(),db.ForeignKey('book.id'),primary_key=True)
     author_id = db.Column(db.Integer(),db.ForeignKey('author.id'),primary_key=True)
 
+class Book_Genre(db.Model):
+    __tablename__ = "book_genre"
+    book_id = db.Column(db.Integer(),db.ForeignKey('book.id'),primary_key = True)
+    genre_id = db.Column(db.Integer(),db.ForeignKey('genre.id'),primary_key = True)
+
+#Data Tables
 class User(db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer(),primary_key = True)
@@ -31,12 +38,15 @@ class Book(db.Model):
     id = db.Column(db.Integer(),primary_key = True)
     name = db.Column(db.String(),nullable = False)
     content = db.Column(db.String())
+    description = db.Column(db.String())
 
-    #authors = db.relationship('Author',secondary = 'book_author_rel',backref = 'books')
+    #authors = db.relationship('Author',secondary = 'book_author',backref = 'books')
 
     #likers = db.relationship('User',secondary='favorite',backref='favourites')
 
     #issued_by = db.relationship('User',secondary='issue',backref='issues')
+
+    genres = db.relationship('Genre',secondary = 'book_genre',backref = 'books')
 
 
 
@@ -58,3 +68,7 @@ class Issue(db.Model):
     issue_period = db.Column(db.Integer(),nullable = True)
     status = db.Column(db.String(),nullable = False,default = 'requested')
 
+class Genre(db.Model):
+    __tablename__ = "genre"
+    id = db.Column(db.Integer(),primary_key = True)
+    name = db.Column(db.String(),nullable = False,unique = True)

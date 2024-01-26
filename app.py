@@ -1,18 +1,27 @@
 from flask import Flask,render_template,redirect,request,url_for,session
 from utility import IsEmailValid
+from models import db
 
 app = Flask(__name__)
 
 app.config["SECRET_KEY"] = "yolo"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///models.db"
+
+db.init_app(app)
+
+with app.app_context():
+    db.create_all()
 
 @app.route("/", methods = ["GET", "POST"])
 def index():
     if request.method == "GET":
         return render_template("index.html")
     elif request.method == "POST":
-        user = request.form
+        user = request.form.get("username")
+        password = request.form.get("password")
+
         session["user"] = user
-        return user
+        return str(user + password)
 
 @app.route("/register", methods = ["GET","POST"])
 def register():
