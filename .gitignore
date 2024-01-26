@@ -1,0 +1,9 @@
+#Ignore Folder:
+__pycache__
+.venv
+
+#Ignore Files:
+.gitignore.txt
+
+#Ignore Types:
+#*.log
