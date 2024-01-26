@@ -24,18 +24,15 @@
                 <div class="mb-3">
                   <label for="user-name" class="form-label">Email address</label>
                   <input type="email" class="form-control" id="user-name" name = "username" placeholder = "user@email.com">
-                  {% if 1 %}
-                  <div class="error-text">Username required</div>
+                  {% if userError %}
+                  <div class="error-text">{{userError}}</div>
                   {% endif %}
                 </div>
                 <div class="mb-3">
                   <label for="user-password" class="form-label">Password</label>
                   <input type="password" class="form-control" id="user-password" name = "password" placeholder = "Password">
-                  {% if 1 %}
-                  <div class="error-text">Password required</div>
-                  {% endif %}
-                  {% if 1 %}
-                  <div class="error-text">User does not exists</div>
+                  {% if passwordError %}
+                  <div class="error-text">{{passwordError}}</div>
                   {% endif %}
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
