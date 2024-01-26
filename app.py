@@ -1,6 +1,7 @@
 from flask import Flask,render_template,redirect,request,url_for,session
 from utility import IsEmailValid
-from models import db
+from models import db,User
+from werkzeug.security import generate_password_hash,check_password_hash
 
 app = Flask(__name__)
 
@@ -17,11 +18,28 @@ def index():
     if request.method == "GET":
         return render_template("index.html")
     elif request.method == "POST":
-        user = request.form.get("username")
+        email = request.form.get("username")
         password = request.form.get("password")
 
-        session["user"] = user
-        return str(user + password)
+        user = User.query.filter_by(email = email).first()
+
+        emailError = ""
+        passwordError = ""
+
+        if email == "":
+            emailError = "Username is Required!"
+        elif not IsEmailValid(email):
+            emailError = "Invalid user email!"
+        elif password == "":
+            passwordError = "Password required!"
+        elif not user or check_password_hash(user.password,password):
+            passwordError = "Invalid user email or password!"
+        
+        if emailError or passwordError:
+            return render_template("index.html", user = email,userError = emailError,passwordError = passwordError)
+        else:
+            session["user"] = email
+            return str(email + password)
 
 @app.route("/register", methods = ["GET","POST"])
 def register():
@@ -62,7 +80,17 @@ def register():
                                    passwordError = passwordError,
                                    rePasswordError = rePasswordError)
         else:
-            return request.form
+            if lastName == "":
+                lastName = None
+            user = User(firstname = firstName, 
+                        lastname = lastName, 
+                        email = email,
+                        password = generate_password_hash(password),
+                        type = "student")
+            db.session.add(user)
+            db.session.commit()
+
+            return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run(debug = True)

@@ -55,7 +55,7 @@ class Author(db.Model):
     id = db.Column(db.Integer(),primary_key = True)
     name = db.Column(db.String(),nullable = False)
     
-    books = db.relationship('Book',secondary = 'book_author_rel',backref = 'authors')
+    books = db.relationship('Book',secondary = 'book_author',backref = 'authors')
 
 class Issue(db.Model):
     __tablname__="issue"
