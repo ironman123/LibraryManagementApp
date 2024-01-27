@@ -26,8 +26,14 @@
     align-items: center;
 }
 
+.nav-item {
+    margin-right: 1vw;
+    min-height: 2vh;
+    font-size: 2.25vh;
+}
+
 .btn .btn-primary {
-    height: 2vh;
+    min-height: 2vh;
 }
 
 .nav-contents .logo:hover {

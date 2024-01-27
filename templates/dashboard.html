@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block userButton %}
+    <div class = "nav-item" style="color: aliceblue;">Hello! {{user}}</div>
     <a href = "{{url_for('signout')}}" style="text-decoration: none; text-align: center; color: white;">
         <button type="button" class="nav-item btn btn-danger">Sign Out</button>
     </a>
