@@ -19,11 +19,18 @@
     <div class="page-container">
         <div class="nav-bar">
             <div class="nav-contents">
-                <div class="nav-item logo"><a href="/" style="text-decoration: none; color:#f9faf8">NekoLib</a></div>
+                <div class="nav-item logo">
+                    <img src = "../static/images/cat-book.png" alt = "cat-reading-book" width="33vw" height="33vh">
+                    <a href="/" style="text-decoration: none; color:#f9faf8">NekoLib</a>
+                </div>
                 <div class="nav-item nav-links">
                     <a class="nav-button popular" href="/">Popular</a>
                     <a class="nav-button latest" href="/">Latest</a>
                 </div>
+                <form class="d-flex nav-item" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
                 {% block userButton %}
                 {% endblock %}
             </div>

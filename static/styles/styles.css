@@ -19,7 +19,7 @@
 }
 
 .nav-contents {
-    padding: 1.8%;
+    padding: 1vh;
     display: flex;
     height: 3vh;
     flex: 1 1 auto;
@@ -46,14 +46,20 @@
     font-size: 4.5vh;
     text-shadow: 0 0 3px currentColor;
     font-weight: bolder;
-    margin-left: 5%;
+    margin-left: 1vw;
+    justify-content: center;
 }
 
 .nav-links {
     display: flex;
     margin-left: 3%;
-    width: 50%;
+    min-width: 25vw;
     margin-right: auto;
+}
+
+.d-flex{
+    margin: 1vh 3vw;
+    
 }
 
 .styled-button {
