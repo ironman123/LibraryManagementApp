@@ -1,3 +1,50 @@
 .body-container.student-dashboard {
+    display:flex;
+    min-height: 86.75vh;
+}
+
+.left-panel{
+    background-color: rgb(31, 41, 55);
+    color:whitesmoke;
+    font-family: 'Josefin Sans', 'Lucida Sans', 'sans-serif';
+    padding: 0.75vh;
+    display: flex;
+    flex-direction: column;
+    flex:1;
+    min-height: 86.75vh;
+    max-height: 86.75vh;
+    transition: flex 0.15s;
+    overflow: hidden;
+}
+
+.panel-content{
+    padding: 0;
+    margin-top: 1vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+hr.divider{
+    margin: 0px;
+    padding: 0px;
+}
+
+.panel-content::-webkit-scrollbar{
+    display: none;
+}
+
+.panel-item{
+    margin:1vh;
+    font-size: 3vh;
+    text-align: center;
+    
+}
+
+.right-panel{
+    min-width: 80vw;
+    flex:7;
+    background-color:cornflowerblue;
+    min-width: auto;
     min-height: 86.75vh;
 }
