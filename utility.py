@@ -1,9 +1,19 @@
 import re
-from flask import render_template,redirect,url_for
+from flask import render_template,redirect,url_for,session
 from models import db,User
 from werkzeug.security import generate_password_hash
+from functools import wraps
 
 key = "yolo"
+
+def login_required(f):
+    @wraps(f)
+    def wrapper(*args,**kwargs):
+        if "userID" in session:
+            return f(*args,**kwargs)
+        else:
+            return redirect(url_for('index'))
+    return wrapper
 
 def IsEmailValid(email):
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'

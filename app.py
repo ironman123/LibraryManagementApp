@@ -1,5 +1,5 @@
 from flask import Flask,render_template,redirect,request,url_for,session
-from utility import IsEmailValid,RegisterUser,key
+from utility import IsEmailValid,RegisterUser,key,login_required
 from models import db,User
 from werkzeug.security import generate_password_hash,check_password_hash
 
@@ -14,10 +14,11 @@ with app.app_context():
     db.create_all()
 
 @app.route("/user",methods = ["GET","POST"])
+@login_required
 def userDashboard():
     if request.method == "GET":
         user = User.query.filter_by(id = session["userID"]).first()
-        return str(user.firstname + '-' + user.email)
+        return render_template('user-dashboard.html', user = user.firstname)
 
 @app.route("/", methods = ["GET", "POST"])
 def index():
@@ -76,6 +77,12 @@ def librarianRegister():
         type="librarian"
 
         return RegisterUser(firstName=firstName,lastName=lastName,email=email,password=password,repassword=repassword,securityKey=securityKey,type = type)
+    
+@app.route('/signout')
+def signout():
+    session.clear()
+    return redirect(url_for('index'))
+    
 
 
 if __name__ == "__main__":
