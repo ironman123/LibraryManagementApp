@@ -1,0 +1,19 @@
+{% extends "register.html" %}
+
+{% block type %}
+/librarian
+{% endblock %}
+
+{% block fields %}
+<div class="row">
+    <div class="col">
+        <div class="mb-3">
+            <label for="security-key" class="form-label">Security Key</label>
+            <input type="text" class="form-control" id="security-key" placeholder="***key***" name="securitykey">
+            {% if securityKeyError %}
+            <div class="error-text">{{securityKeyError}}</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

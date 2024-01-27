@@ -1,17 +1,23 @@
 from flask import Flask,render_template,redirect,request,url_for,session
-from utility import IsEmailValid
+from utility import IsEmailValid,RegisterUser,key
 from models import db,User
 from werkzeug.security import generate_password_hash,check_password_hash
 
 app = Flask(__name__)
 
-app.config["SECRET_KEY"] = "yolo"
+app.config["SECRET_KEY"] = key
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///models.db"
 
 db.init_app(app)
 
 with app.app_context():
     db.create_all()
+
+@app.route("/user",methods = ["GET","POST"])
+def userDashboard():
+    if request.method == "GET":
+        user = User.query.filter_by(id = session["user"]).first()
+        return str(user.firstname + '-' + user.email)
 
 @app.route("/", methods = ["GET", "POST"])
 def index():
@@ -38,8 +44,8 @@ def index():
         if emailError or passwordError:
             return render_template("index.html", user = email,userError = emailError,passwordError = passwordError)
         else:
-            session["user"] = email
-            return str(email + password)
+            session["user"] = user.id
+            return redirect(url_for('userDashboard'))
 
 @app.route("/register", methods = ["GET","POST"])
 def register():
@@ -51,46 +57,25 @@ def register():
         email = request.form.get("email")
         password = request.form.get("password")
         repassword = request.form.get("repassword")
+        type="student"
 
-        fNameError = ""
-        emailError = ""
-        passwordError = ""
-        rePasswordError = ""
+        return RegisterUser(firstName=firstName,lastName=lastName,email=email,password=password,repassword=repassword,securityKey=None,type = type)
 
-        if firstName == "":
-            fNameError = "First Name is Required!"
-        if email == "":
-            emailError = "Email is Required!"
-        elif not IsEmailValid(email):
-            emailError = "Enter a valid email!"
-        if password == "":
-            passwordError = "Password is required!"
-        if repassword != password:
-            rePasswordError = "Password doesn't match!"
+@app.route("/librarian/register", methods = ["GET","POST"])
+def librarianRegister():
+    if request.method == "GET":
+        return render_template("librarian-register.html")
+    elif request.method == "POST":
+        firstName = request.form.get("firstname")
+        lastName = request.form.get("lastname")
+        email = request.form.get("email")
+        password = request.form.get("password")
+        repassword = request.form.get("repassword")
+        securityKey = request.form.get("securitykey")
+        type="librarian"
 
-        if fNameError or emailError or passwordError or rePasswordError:
-            return render_template("Register.html", 
-                                   firstname = firstName,
-                                   lastname = lastName,
-                                   email = email,
-                                   password = password,
-                                   repassword = repassword,
-                                   fNameError = fNameError,
-                                   emailError = emailError,
-                                   passwordError = passwordError,
-                                   rePasswordError = rePasswordError)
-        else:
-            if lastName == "":
-                lastName = None
-            user = User(firstname = firstName, 
-                        lastname = lastName, 
-                        email = email,
-                        password = generate_password_hash(password),
-                        type = "student")
-            db.session.add(user)
-            db.session.commit()
+        return RegisterUser(firstName=firstName,lastName=lastName,email=email,password=password,repassword=repassword,securityKey=securityKey,type = type)
 
-            return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run(debug = True)
