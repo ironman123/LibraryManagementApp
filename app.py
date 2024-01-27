@@ -16,7 +16,7 @@ with app.app_context():
 @app.route("/user",methods = ["GET","POST"])
 def userDashboard():
     if request.method == "GET":
-        user = User.query.filter_by(id = session["user"]).first()
+        user = User.query.filter_by(id = session["userID"]).first()
         return str(user.firstname + '-' + user.email)
 
 @app.route("/", methods = ["GET", "POST"])
@@ -38,13 +38,14 @@ def index():
             emailError = "Invalid user email!"
         elif password == "":
             passwordError = "Password required!"
-        elif not user or check_password_hash(user.password,password):
+        elif not (user or check_password_hash(user.password,password)):
             passwordError = "Invalid user email or password!"
         
         if emailError or passwordError:
             return render_template("index.html", user = email,userError = emailError,passwordError = passwordError)
         else:
-            session["user"] = user.id
+            session["userID"] = user.id
+            session["userType"] = user.type
             return redirect(url_for('userDashboard'))
 
 @app.route("/register", methods = ["GET","POST"])
