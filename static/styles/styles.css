@@ -170,4 +170,5 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 2% 0 2%;
+    border-top: 1px solid #535353;
 }
