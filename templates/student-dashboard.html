@@ -1,0 +1,18 @@
+{% extends "dashboard.html" %}
+
+{% block head %}
+    <title>Student Dashboard</title>
+    <link href="../static/styles/student-dashboard.css" rel="stylesheet">
+{% endblock %}
+
+{% block userButton %}
+    <a href = "{{url_for('signout')}}" style="text-decoration: none; text-align: center; color: white;">
+        <button type="button" class="nav-item btn btn-danger">Sign Out</button>
+    </a>
+{% endblock %}
+
+{% block body %}
+    <div class="body-container student-dashboard">
+        Hello {{user}}
+    </div>
+{% endblock %}

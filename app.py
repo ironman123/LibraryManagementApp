@@ -18,7 +18,7 @@ with app.app_context():
 def userDashboard():
     if request.method == "GET":
         user = User.query.filter_by(id = session["userID"]).first()
-        return render_template('user-dashboard.html', user = user.firstname)
+        return render_template('student-dashboard.html', user = user.firstname)
 
 @app.route("/", methods = ["GET", "POST"])
 def index():
