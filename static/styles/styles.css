@@ -87,16 +87,19 @@
     font-size: smaller;
     font-family: 'Josefin Sans', 'Lucida Sans', 'sans-serif';
     animation: shake 0.36s 0.1s;
-    margin-left: 2%;
-    margin-top: 1%;
+    margin-left: 0.5vw;
+    margin-top: 0.5vh;
 }
 
 @keyframes shake {
-    0%,100% {
+
+    0%,
+    100% {
         transform: translateX(0);
     }
 
-    25%,75% {
+    25%,
+    75% {
         transform: translateX(-0.75em);
     }
 
