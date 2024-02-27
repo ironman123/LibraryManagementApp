@@ -1,5 +1,5 @@
 from flask import Flask,render_template,redirect,request,url_for,session
-from utility import IsEmailValid,RegisterUser,key,login_required
+from utility import IsEmailValid,RegisterUser,key,login_required,is_user
 from models import db,User
 from werkzeug.security import generate_password_hash,check_password_hash
 
@@ -13,18 +13,32 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-@app.route("/user",methods = ["GET","POST"])
+@app.route("/user/student",methods = ["GET","POST"])
 @login_required
-def userDashboard():
+@is_user("student")
+def studentDashboard():
     if request.method == "GET":
         user = User.query.filter_by(id = session["userID"]).first()
         return render_template('student-dashboard.html', user = user.firstname)
+
+@app.route("/user/librarian",methods = ["GET","POST"])
+@login_required
+@is_user("librarian")
+def librarianDashboard():
+    if request.method == "GET":
+        user = User.query.filter_by(id = session["userID"]).first()
+        return render_template('librarian-dashboard.html', user = user.firstname)
+
 
 @app.route("/", methods = ["GET", "POST"])
 def index():
     if request.method == "GET":
         return render_template("index.html")
     elif request.method == "POST":
+
+        if "userID" in session:
+            session.clear()
+
         email = request.form.get("username")
         password = request.form.get("password")
 
@@ -47,7 +61,10 @@ def index():
         else:
             session["userID"] = user.id
             session["userType"] = user.type
-            return redirect(url_for('userDashboard'))
+            if session["userType"] == "student":
+                return redirect(url_for('studentDashboard'))
+            else:
+                return redirect(url_for('librarianDashboard'))
 
 @app.route("/register", methods = ["GET","POST"])
 def register():

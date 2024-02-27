@@ -1,6 +1,7 @@
 #Ignore Folder:
 __pycache__
 .venv
+TestStuff
 
 #Ignore Files:
 .gitignore.txt

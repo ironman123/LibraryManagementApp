@@ -15,6 +15,18 @@ def login_required(f):
             return redirect(url_for('index'))
     return wrapper
 
+def is_user(expectedType):
+    def decorator(f):
+        @wraps(f)
+        def wrapper(*args,**kwargs):
+            if "userID" in session:
+                if session["userType"] == expectedType:
+                    return f(*args,**kwargs)
+            return redirect(url_for('index'))
+        return wrapper
+    return decorator
+            
+
 def IsEmailValid(email):
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     match = re.match(pattern,email)
