@@ -53,7 +53,7 @@ def index():
             emailError = "Invalid user email!"
         elif password == "":
             passwordError = "Password required!"
-        elif not (user or check_password_hash(user.password,password)):
+        elif not user or not check_password_hash(user.password,password):
             passwordError = "Invalid user email or password!"
         
         if emailError or passwordError:
