@@ -1,58 +1,42 @@
 {% extends "dashboard.html" %}
 
-{% block head %}
+{% block dashboardHead %}
     <title>Student Dashboard</title>
     <link href="../static/styles/student-dashboard.css" rel="stylesheet">
-    <script src="../static/scripts/dashboard.js" defer></script>
 {% endblock %}
 
-{% block userButton %}
-    <div class = "nav-item">Hello! {{user}}</div>
-    <a href = "{{url_for('signout')}}" style="text-decoration: none; text-align: center; color: white;">
-        <button type="button" class="nav-item btn btn-danger">Sign Out</button>
-    </a>
+{% block leftContent %}
+    <a href="/" class = "panel-item" id="favouriteLabel">Favourites</a>
+    <hr class = "divider">
+    <a href="/" class = "panel-item" id="issuedLabel">Issued</a>
+    <hr class = "divider">
+    <a href="/" class = "panel-item" id="historyLabel">History</a>
+    <hr class = "divider">
+    <div class = "panel-item">4</div>
+    <hr class = "divider">
+    <div class = "panel-item">5</div>
+    <hr class = "divider">
+    <div class = "panel-item">6</div>
+    <div class = "heading">Recents</div>
+    <div class = "panel-item">7</div>
+    <hr class = "divider">
+    <div class = "panel-item">8</div>
+    <hr class = "divider">
+    <div class = "panel-item">9</div>
+    <hr class = "divider">
+    <div class = "panel-item">10</div>
+    <hr class = "divider">
+    <div class = "panel-item">11</div>
+    <hr class = "divider">
+    <div class = "panel-item">12</div>
+    <hr class = "divider">
+    <div class = "panel-item">13</div>
+    <hr class = "divider">
+    <div class = "panel-item">14</div>
+    <hr class = "divider">
+    <div class = "panel-item">15</div>
 {% endblock %}
 
-{% block body %}
-    <div class="body-container student-dashboard">
-        <div class = "left-panel" id="leftPanel">
-            <input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off" checked onchange="toggleFlex()">
-            <label class="btn btn-outline-primary" id="toggleLabel" for="btn-check-2-outlined" style="text-align: center; padding: 1vh;">Menu</label>
-            <div class="panel-content">
-                <a href="/" class = "panel-item" id="favouriteLabel">Favourites</a>
-                <hr class = "divider">
-                <a href="/" class = "panel-item" id="issuedLabel">Issued</a>
-                <hr class = "divider">
-                <a href="/" class = "panel-item" id="historyLabel">History</a>
-                <hr class = "divider">
-                <div class = "panel-item">4</div>
-                <hr class = "divider">
-                <div class = "panel-item">5</div>
-                <hr class = "divider">
-                <div class = "panel-item">6</div>
-                <div class = "heading">Recents</div>
-                <div class = "panel-item">7</div>
-                <hr class = "divider">
-                <div class = "panel-item">8</div>
-                <hr class = "divider">
-                <div class = "panel-item">9</div>
-                <hr class = "divider">
-                <div class = "panel-item">10</div>
-                <hr class = "divider">
-                <div class = "panel-item">11</div>
-                <hr class = "divider">
-                <div class = "panel-item">12</div>
-                <hr class = "divider">
-                <div class = "panel-item">13</div>
-                <hr class = "divider">
-                <div class = "panel-item">14</div>
-                <hr class = "divider">
-                <div class = "panel-item">15</div>
-            </div>
-        </div>
-        <div class = "right-panel">
-
-        </div>
-    </div>
-
+{% block rightContent %}
+    Hello Student {{user}}!!!
 {% endblock %}

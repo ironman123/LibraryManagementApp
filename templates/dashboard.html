@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <title>Dashboard</title>
+    {% block dashboardHead %}
+    {% endblock %}
     <link href="../static/styles/dashboard.css" rel="stylesheet">
+    <script src="../static/scripts/dashboard.js" defer></script>
 {% endblock %}
 
 {% block userButton %}
@@ -14,6 +16,17 @@
 
 {% block body %}
     <div class="body-container dashboard">
-        Hello {{user}}
+        <div class = "left-panel" id="leftPanel">
+            <input type="checkbox" class="btn-check" id="btn-check-2-outlined" autocomplete="off" checked onchange="toggleFlex()">
+            <label class="btn btn-outline-primary" id="toggleLabel" for="btn-check-2-outlined" style="text-align: center; padding: 1vh;">Menu</label>
+            <div class="panel-content">
+                {% block leftContent %}
+                {% endblock %}
+            </div>
+        </div>
+        <div class = "right-panel">
+            {% block rightContent %}
+            {% endblock %}
+        </div>
     </div>
 {% endblock %}
