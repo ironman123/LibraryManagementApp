@@ -32,12 +32,14 @@ def IsEmailValid(email):
     match = re.match(pattern,email)
     return match is not None
 
-def RegisterUser(firstName, lastName, email, password, repassword, securityKey, type):
+def RegisterUser(firstName, lastName, email, password, repassword, securityKey, type, duplicateEmail):
     fNameError = ""
     emailError = ""
     passwordError = ""
     rePasswordError = ""
     securityKeyError = ""
+
+    
 
     if firstName == "":
         fNameError = "First Name is required!"
@@ -45,6 +47,8 @@ def RegisterUser(firstName, lastName, email, password, repassword, securityKey, 
         emailError = "Email is Required!"
     elif not IsEmailValid(email):
         emailError = "Enter a valid email!"
+    elif duplicateEmail:
+        emailError = "Username not available!"
     if password == "":
         passwordError = "Password is required!"
     if repassword != password:

@@ -78,7 +78,12 @@ def register():
         repassword = request.form.get("repassword")
         type="student"
 
-        return RegisterUser(firstName=firstName,lastName=lastName,email=email,password=password,repassword=repassword,securityKey=None,type = type)
+        duplicate=False
+        user = User.query.filter_by(email = email).first()
+        if user:
+            duplicate = True
+
+        return RegisterUser(firstName=firstName,lastName=lastName,email=email,password=password,repassword=repassword,securityKey=None,type = type,duplicateEmail=duplicate)
 
 @app.route("/librarian/register", methods = ["GET","POST"])
 def librarianRegister():
@@ -93,9 +98,15 @@ def librarianRegister():
         securityKey = request.form.get("securitykey")
         type="librarian"
 
-        return RegisterUser(firstName=firstName,lastName=lastName,email=email,password=password,repassword=repassword,securityKey=securityKey,type = type)
+        duplicate=False
+        user = User.query.filter_by(email = email).first()
+        if user:
+            duplicate = True
+
+        return RegisterUser(firstName=firstName,lastName=lastName,email=email,password=password,repassword=repassword,securityKey=securityKey,type = type,duplicateEmail=duplicate)
     
 @app.route('/signout')
+@login_required
 def signout():
     session.clear()
     return redirect(url_for('index'))
