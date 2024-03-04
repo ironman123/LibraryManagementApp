@@ -5,7 +5,7 @@ function toggleFlex()
     var toggleLabel = document.getElementById('toggleLabel');
 
     var favouriteLabel = document.getElementById('favouriteLabel');
-    var panelItemHeight = (favouriteLabel.clientHeight) / 1.5;
+    var panelItemHeight = (favouriteLabel.clientHeight) / 2;
 
     var issuedLabel = document.getElementById('issuedLabel');
     var historyLabel = document.getElementById('historyLabel');

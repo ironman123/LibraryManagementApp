@@ -28,6 +28,13 @@ def librarianDashboard():
     if request.method == "GET":
         user = User.query.filter_by(id = session["userID"]).first()
         return render_template('librarian-dashboard.html', user = user.firstname)
+    
+#@app.route("/book-editor", methods=["GET","POST"])
+#@login_required
+#@is_user("librarian")
+#def bookEditor():
+#    if request.method == "GET":
+
 
 
 @app.route("/", methods = ["GET", "POST"])

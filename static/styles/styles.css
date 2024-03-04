@@ -172,3 +172,14 @@
     padding: 0 2% 0 2%;
     border-top: 1px solid #535353;
 }
+
+.animated-button{
+    transition: all 0.27s cubic-bezier(0.25,0.80,0.25,1);
+}
+.animated-button:hover{
+    transform: scale(1.1);
+    
+}
+.animated-button:active{
+    transform: scale(0.95);
+}

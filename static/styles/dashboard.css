@@ -48,3 +48,13 @@ hr.divider {
     min-width: auto;
     min-height: 86.75vh;
 }
+
+.panel-item {
+    padding: 10px;
+    transition: all 0.45s cubic-bezier(0.25,0.80,0.25,1);
+}
+
+.panel-item:hover {
+    background: linear-gradient(to right, rgb(31, 41, 55) 50%, rgb(56, 130, 246) 50%) right;
+    background-size: 200% 100%;
+}
