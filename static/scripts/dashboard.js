@@ -34,3 +34,33 @@ function toggleFlex()
         genreLabel.innerHTML = '<img src="../static/images/genre.png" alt="Genre Editor" height = "' + panelItemHeight + '">';
     }
 }
+
+
+function inputGenre(checkbox) 
+{
+    const inputField = document.getElementById('genre-input');
+    const genre = checkbox.nextElementSibling.textContent.trim();
+    
+    if (checkbox.checked) 
+    {
+        const genres = inputField.value.split(',').map(genre => genre.trim().toLowerCase());
+        
+        if (!genres.includes(genre.toLowerCase()))
+        {
+            if (inputField.value === '')
+            {
+                inputField.value = genre;
+            } 
+            else 
+            {
+                inputField.value += ', ' + genre;
+            }
+        }
+    }
+    else 
+    {
+        inputField.value = inputField.value.replace(genre, '').replace(/(^,|,,| ,|, $)/g, '').trim();
+    }
+}
+
+

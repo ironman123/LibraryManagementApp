@@ -1,0 +1,83 @@
+{% extends "librarian-dashboard.html" %}
+
+{% block rightContent %}
+<div class="glow-bg">
+    <form action = "{{url_for('addBook')}}" method = "post" class="detail-form">
+      <div class="glow-text">Add Book</div>
+      <div class="row">
+          <div class="col">
+              <div class="mb-3">
+                  <label for="title" class="form-label">Title</label>
+                  <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{ title }}">
+                  {% if titleError %}
+                  <div class="error-text">{{titleError}}</div>
+                  {% endif %}
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col">
+              <div class="mb-3">
+                <label for="authors" class="form-label">Authors</label>
+                <span class="help-tooltip" title="For multiple authors add their names separated by a comma: Author1, Author2, Author3">ⓘ</span>
+                <input type="text" class="form-control" id="authors" placeholder="J. R. R. Tolken, Stephen King" name="authors" value="{{ authors }}">
+                <div class="tooltip" id="authors-tooltip">
+                    For multiple authors add their names separated by a comma
+                </div>  
+                {% if authorsError %}
+                    <div class="error-text">{{authorsError}}</div>
+                {% endif %}
+              </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col">
+            <div class="mb-3">
+                <div class="dropdown">Genres
+                    <div class="dropdown-content" id="genre-dropdown">
+                        <input type="checkbox" class="btn-check dropdown-button" id="Action" autocomplete="off" onchange="inputGenre(this)">
+                        <label class="btn btn-outline-primary" for="Action" style="text-align: center; padding: 1vh;">Action</label>
+
+                        <input type="checkbox" class="btn-check dropdown-button" id="Sci-fi" autocomplete="off" onchange="inputGenre(this)">
+                        <label class="btn btn-outline-primary" for="Sci-fi" style="text-align: center; padding: 1vh;">Sci-fi</label>
+
+                        <input type="checkbox" class="btn-check dropdown-button" id="Adventure" autocomplete="off" onchange="inputGenre(this)">
+                        <label class="btn btn-outline-primary" for="Adventure" style="text-align: center; padding: 1vh;">Adventure</label>
+
+                        <input type="checkbox" class="btn-check dropdown-button" id="Drama" autocomplete="off" onchange="inputGenre(this)">
+                        <label class="btn btn-outline-primary" for="Drama" style="text-align: center; padding: 1vh;">Drama</label>
+
+                        <input type="checkbox" class="btn-check dropdown-button" id="Phylosophy" autocomplete="off" onchange="inputGenre(this)">
+                        <label class="btn btn-outline-primary" for="Phylosophy" style="text-align: center; padding: 1vh;">Phylosophy</label>
+
+                        <input type="checkbox" class="btn-check dropdown-button" id="Horror" autocomplete="off" onchange="inputGenre(this)">
+                        <label class="btn btn-outline-primary" for="Horror" style="text-align: center; padding: 1vh;">Horror</label>
+
+                        <input type="checkbox" class="btn-check dropdown-button" id="Mystery" autocomplete="off" onchange="inputGenre(this)">
+                        <label class="btn btn-outline-primary" for="Mystery" style="text-align: center; padding: 1vh;">Mystery</label>
+                    </div>
+                    <input type="text" id="genre-input" class="genre-input">
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col">
+              <div class="mb-3">
+                <label for="file-upload" class="form-label">Upload File</label>
+                <input type="file" id="file-upload" name="file-upload" accept=".pdf">
+              </div>
+          </div>
+      </div>
+      {% block fields %}
+      {% endblock %}
+      <div class="row">
+          <div class="col">
+              <div class="mb-3" style="display: flex;justify-content: center;">
+                  <input type="submit" class="btn btn-primary"  value="Submit">
+              </div>
+          </div>
+      </div>
+    </form>
+</div>
+{% endblock %}

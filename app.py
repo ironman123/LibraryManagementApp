@@ -29,11 +29,14 @@ def librarianDashboard():
         user = User.query.filter_by(id = session["userID"]).first()
         return render_template('librarian-dashboard.html', user = user.firstname)
     
-#@app.route("/book-editor", methods=["GET","POST"])
-#@login_required
-#@is_user("librarian")
-#def bookEditor():
-#    if request.method == "GET":
+@app.route("/add-book", methods=["GET","POST"])
+@login_required
+@is_user("librarian")
+def addBook():
+    if request.method == "GET":
+        return render_template('addbook.html')
+    elif request.method == "POST":
+        return render_template('addbook.html')
 
 
 

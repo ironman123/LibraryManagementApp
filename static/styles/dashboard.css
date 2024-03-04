@@ -58,3 +58,24 @@ hr.divider {
     background: linear-gradient(to right, rgb(31, 41, 55) 50%, rgb(56, 130, 246) 50%) right;
     background-size: 200% 100%;
 }
+
+.form-box{
+    height: 86.75vh;
+    min-width: 75vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90vh;
+}
+
+.detail-form{
+    border-radius: 100px;
+    padding: 3vh;
+    display: flex;
+    height: 86.75vh;
+    padding-left: 6vh;
+    padding-right: 6vh;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
