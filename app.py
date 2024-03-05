@@ -37,6 +37,15 @@ def addBook():
         return render_template('addbook.html')
     elif request.method == "POST":
         return render_template('addbook.html')
+    
+@app.route("/genre-editor", methods=["GET","POST"])
+@login_required
+@is_user("librarian")
+def genreEdit():
+    if request.method == "GET":
+        return render_template('genres.html')
+    if request.method == "POST":
+        return render_template('genres.html')
 
 
 

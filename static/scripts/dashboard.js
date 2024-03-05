@@ -7,6 +7,7 @@ function toggleFlex()
     var favouriteLabel = document.getElementById('favouriteLabel');
     var panelItemHeight = (favouriteLabel.clientHeight) / 2;
 
+    var homeLabel = document.getElementById('homeLabel');
     var issuedLabel = document.getElementById('issuedLabel');
     var historyLabel = document.getElementById('historyLabel');
     var bookLabel = document.getElementById('bookLabel');
@@ -17,6 +18,7 @@ function toggleFlex()
     {
         leftPanel.style.flex = '1';
         toggleLabel.textContent = 'Menu';
+        homeLabel.innerHTML = 'Home';
         favouriteLabel.innerHTML = 'Favourites';
         issuedLabel.innerHTML = 'Issued';
         historyLabel.innerHTML = 'History';
@@ -27,6 +29,7 @@ function toggleFlex()
     {
         leftPanel.style.flex = '0.3';
         toggleLabel.textContent = '≡';
+        homeLabel.innerHTML = '<img src="../static/images/home.png" alt="Home Icon" height = "' + panelItemHeight + '">';
         favouriteLabel.innerHTML = '<img src="../static/images/favourite.png" alt="Heart Icon" height = "' + panelItemHeight + '">';
         issuedLabel.innerHTML = '<img src="../static/images/issued.png" alt="Book Icon" height = "' + panelItemHeight + '">';
         historyLabel.innerHTML = '<img src="../static/images/history.png" alt="History Icon" height = "' + panelItemHeight + '">';
