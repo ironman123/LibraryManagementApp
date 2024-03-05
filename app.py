@@ -44,7 +44,11 @@ def addBook():
 @is_user("librarian")
 def genreEdit():
     user = User.query.filter_by(id = session["userID"]).first()
+    
     if request.method == "GET":
+        genresQyery = Genre.query.with_entities(Genre.name).all()
+        allGenres = [name for (name,) in genresQyery]
+        return render_template('genres.html', user=user.firstname, genres=allGenres)
         return render_template('genres.html', user=user.firstname)
     if request.method == "POST":
         genreError=""
@@ -77,7 +81,9 @@ def genreEdit():
                     db.session.delete(genre)
                     db.session.commit()
             
-        return render_template('genres.html', user=user.firstname, genreError=genreError,genreSuccess=genreSuccess)
+        genresQyery = Genre.query.with_entities(Genre.name).all()
+        allGenres = [name for (name,) in genresQyery]
+        return render_template('genres.html', user=user.firstname, genreError=genreError,genreSuccess=genreSuccess,genres=allGenres)
 
 
 
@@ -166,7 +172,12 @@ def signout():
 @login_required
 @is_user("librarian")
 def removeGenre(genre):
-    print(genre+" Removed :D")
+    genreEntry = Genre.query.filter_by(name = genre).first()
+    db.session.delete(genreEntry)
+    db.session.commit()
+    
+    #genresQyery = Genre.query.with_entities(Genre.name).all()
+    #allGenres = [name for (name,) in genresQyery]
     return redirect(url_for('genreEdit'))
 
 
