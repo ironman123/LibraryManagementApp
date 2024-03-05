@@ -1,25 +1,30 @@
 .add-button{
-    position: absolute;
-    bottom: 0.6em;
-    right: 1em;
-    width: 1.75em;
-    height: 1.75em;
-    border-radius: 100%;
-    color: #fff;
-    background-color:rgb(106, 169, 34);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    font-size: 1.75em;
-    line-height: 2;
-    text-decoration: none;
-    border-width: 0px;
-  }
-  .add-button:hover{
-    background-color:rgb(129, 199, 49);
-  }
-  .add-button:active{
-    background-color: rgb(93, 146, 33);
-  }
+  position: absolute;
+  bottom: 0.6em;
+  right: 1em;
+  width: 1.75em;
+  height: 1.75em;
+  border-radius: 100%;
+  color: #fff;
+  background-color:rgb(106, 169, 34);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.75em;
+  line-height: 2;
+  text-decoration: none;
+  border-width: 0px;
+}
+.add-button:hover{
+  background-color:rgb(129, 199, 49);
+}
+.add-button:active{
+  background-color: rgb(93, 146, 33);
+}
+.button-icon{
+  max-width: 4vh;
+  max-height: 4vh;
+  margin: 2vh;
+}
 

@@ -25,7 +25,10 @@ def is_user(expectedType):
             return redirect(url_for('index'))
         return wrapper
     return decorator
-            
+
+
+def FixText(str):
+    return re.sub(' +',' ',str)
 
 def IsEmailValid(email):
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'

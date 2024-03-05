@@ -1,0 +1,131 @@
+{% extends "librarian-dashboard.html" %}
+
+{% block dashboardHead %}
+    <title>Genre Editor</title>
+    <link href="../static/styles/genre-style.css" rel="stylesheet">
+    <link href="../static/styles/librarian-dashboard.css" rel="stylesheet">
+{% endblock %}
+
+{% block rightContent %}
+    <div class="body-container genre-page">
+        <div class="genreAdder">
+            <form action="/genre-editor" method="POST">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="genreText" placeholder="Genre" aria-describedby="button-addon4">
+                    <div class="input-group-append" id="button-addon4">
+                        <button class="btn btn-outline-success" name="action" value="add" type="submit">Add</button>
+                        <button class="btn btn-outline-danger" name="action" value="delete" type="submit">Delete</button>
+                    </div>
+                </div>
+                {% if genreError %}
+                    <div class="error-text">{{genreError}}</div>
+                {% endif %}
+                {% if genreSuccess %}
+                    <div class="success-text">{{genreSuccess}}</div>
+                {% endif %}
+            </form>
+        </div>
+        <div class="page-content">
+            <div class="grid">
+                <div class="genre-card shadow-lg p-3 mb-5 bg-white rounded">
+                    <h5 class="card-title">Action</h5>
+                    <div class="genre-card-body">
+                      <a href="{{url_for('register')}}" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                      <a href="{{url_for('index')}}" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    </div>
+                </div>
+                <div class="genre-card shadow-lg p-3 mb-5 bg-white rounded ">
+                    <h5 class="card-title">Adventure</h5>
+                    <div class="genre-card-body">
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                      <a href="{{url_for('removeGenre',genre='Adventure')}}" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    </div>
+                </div>
+                <div class="genre-card shadow-lg p-3 mb-5 bg-white rounded genre-card">
+                    <h5 class="card-title">Sci-fi</h5>
+                    <div class="genre-card-body">
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    </div>
+                </div>
+                <div class="genre-card shadow-lg p-3 mb-5 bg-white rounded">
+                    <h5 class="card-title">Action</h5>
+                    <div class="genre-card-body">
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    </div>
+                </div>
+                <div class="genre-card shadow-lg p-3 mb-5 bg-white rounded">
+                    <h5 class="card-title">Action</h5>
+                    <div class="genre-card-body">
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    </div>
+                </div>
+                <div class="genre-card shadow-lg p-3 mb-5 bg-white rounded">
+                    <h5 class="card-title">Action</h5>
+                    <div class="genre-card-body">
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    </div>
+                </div>
+                <div class="genre-card shadow-lg p-3 mb-5 bg-white rounded">
+                    <h5 class="card-title">Action</h5>
+                    <div class="genre-card-body">
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    </div>
+                </div>
+                <div class="genre-card shadow-lg p-3 mb-5 bg-white rounded">
+                    <h5 class="card-title">Action</h5>
+                    <div class="genre-card-body">
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    </div>
+                </div>
+                <div class="genre-card shadow-lg p-3 mb-5 bg-white rounded">
+                    <h5 class="card-title">Action</h5>
+                    <div class="genre-card-body">
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    </div>
+                </div>
+                <div class="genre-card shadow-lg p-3 mb-5 bg-white rounded">
+                    <h5 class="card-title">Action</h5>
+                    <div class="genre-card-body">
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    </div>
+                </div>
+                <div class="genre-card shadow-lg p-3 mb-5 bg-white rounded">
+                    <h5 class="card-title">Action</h5>
+                    <div class="genre-card-body">
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    </div>
+                </div>
+                <div class="genre-card shadow-lg p-3 mb-5 bg-white rounded">
+                    <h5 class="card-title">Action</h5>
+                    <div class="genre-card-body">
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    </div>
+                </div>
+                <div class="genre-card shadow-lg p-3 mb-5 bg-white rounded">
+                    <h5 class="card-title">Action</h5>
+                    <div class="genre-card-body">
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    </div>
+                </div>
+                <div class="genre-card shadow-lg p-3 mb-5 bg-white rounded">
+                    <h5 class="card-title">Action</h5>
+                    <div class="genre-card-body">
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                      <a href="#" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

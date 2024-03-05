@@ -1,6 +1,6 @@
 from flask import Flask,render_template,redirect,request,url_for,session
-from utility import IsEmailValid,RegisterUser,key,login_required,is_user
-from models import db,User
+from utility import IsEmailValid,RegisterUser,key,login_required,is_user,FixText
+from models import *
 from werkzeug.security import generate_password_hash,check_password_hash
 
 app = Flask(__name__)
@@ -33,8 +33,9 @@ def librarianDashboard():
 @login_required
 @is_user("librarian")
 def addBook():
+    user = User.query.filter_by(id = session["userID"]).first()
     if request.method == "GET":
-        return render_template('addbook.html')
+        return render_template('addbook.html',user=user.firstname)
     elif request.method == "POST":
         return render_template('addbook.html')
     
@@ -42,10 +43,41 @@ def addBook():
 @login_required
 @is_user("librarian")
 def genreEdit():
+    user = User.query.filter_by(id = session["userID"]).first()
     if request.method == "GET":
-        return render_template('genres.html')
+        return render_template('genres.html', user=user.firstname)
     if request.method == "POST":
-        return render_template('genres.html')
+        genreError=""
+        genreSuccess=""
+
+        action = request.form.get("action")
+        genreName = FixText(request.form.get("genreText")).title()
+        if(action == "add"):
+            if(genreName == ""):
+                genreError="Field Required!"
+            else:
+                genre = Genre.query.filter_by(name=genreName).first()
+                if(not genre):
+                    genre = Genre(name=genreName)
+                    db.session.add(genre)
+                    db.session.commit()
+                    genreSuccess=genreName+" added*"
+                else:
+                    genreError="Genre Already Exist!"
+
+        elif(action == 'delete'):
+            if(genreName == ""):
+                genreError="Field Required!"
+            else:
+                genre = Genre.query.filter_by(name=genreName).first()
+                if(not genre):
+                    genreError="Genre Does Not Exist!"
+                else:
+                    genreSuccess=genreName+" deleted*"
+                    db.session.delete(genre)
+                    db.session.commit()
+            
+        return render_template('genres.html', user=user.firstname, genreError=genreError,genreSuccess=genreSuccess)
 
 
 
@@ -129,6 +161,15 @@ def librarianRegister():
 def signout():
     session.clear()
     return redirect(url_for('index'))
+
+@app.route('/genre-remove/<string:genre>')
+@login_required
+@is_user("librarian")
+def removeGenre(genre):
+    print(genre+" Removed :D")
+    return redirect(url_for('genreEdit'))
+
+
     
 
 

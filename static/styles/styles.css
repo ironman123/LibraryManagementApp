@@ -121,6 +121,26 @@
     }
 }
 
+.success-text {
+    color: rgb(90, 201, 0);
+    font-size: smaller;
+    font-family: 'Josefin Sans', 'Lucida Sans', 'sans-serif';
+    margin-left: 0.5vw;
+    margin-top: 0.5vh;
+    animation: zoomineffect 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes zoomineffect {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 
 
 .glow-text {

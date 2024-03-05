@@ -1,0 +1,57 @@
+.body-container.genre-page{
+    display: flex;
+    width: 100%;
+}
+
+.genre-page{
+    display: flex;
+    flex-direction: column;
+}
+
+.page-content{
+    display: flex;
+    margin:2vh;
+    padding: 0;
+    overflow:hidden;
+}
+
+.grid{
+    margin-top: 1vh;
+    min-height: 65vh;
+    max-height: 65vh;
+    min-width: 75vw;
+    max-width: 75vw;
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    padding: 3vh;
+}
+
+.grid::-webkit-scrollbar{
+    display: none;
+}
+
+.genreAdder{
+    padding:1vh;
+    min-height: 8vh;
+    min-width: 80vw;
+    margin: 2vh 1vh;
+}
+  
+.genre-card{
+    max-height: 18vh;
+    min-width: 13rem;
+    margin:0 3vh;
+    transition: all 0.21s ease-in-out;
+}
+.genre-card-body{
+    display: flex;
+    margin: 1vh;
+}
+
+.genre-card:hover{
+    transform: scale(1.15);
+    color: rgb(67, 161, 243);
+}
+  
+  
