@@ -35,26 +35,10 @@
             <div class="mb-3">
                 <div class="dropdown">Genres
                     <div class="dropdown-content" id="genre-dropdown">
-                        <input type="checkbox" class="btn-check dropdown-button" id="Action" autocomplete="off" onchange="inputGenre(this)">
-                        <label class="btn btn-outline-primary" for="Action" style="text-align: center; padding: 1vh;">Action</label>
-
-                        <input type="checkbox" class="btn-check dropdown-button" id="Sci-fi" autocomplete="off" onchange="inputGenre(this)">
-                        <label class="btn btn-outline-primary" for="Sci-fi" style="text-align: center; padding: 1vh;">Sci-fi</label>
-
-                        <input type="checkbox" class="btn-check dropdown-button" id="Adventure" autocomplete="off" onchange="inputGenre(this)">
-                        <label class="btn btn-outline-primary" for="Adventure" style="text-align: center; padding: 1vh;">Adventure</label>
-
-                        <input type="checkbox" class="btn-check dropdown-button" id="Drama" autocomplete="off" onchange="inputGenre(this)">
-                        <label class="btn btn-outline-primary" for="Drama" style="text-align: center; padding: 1vh;">Drama</label>
-
-                        <input type="checkbox" class="btn-check dropdown-button" id="Phylosophy" autocomplete="off" onchange="inputGenre(this)">
-                        <label class="btn btn-outline-primary" for="Phylosophy" style="text-align: center; padding: 1vh;">Phylosophy</label>
-
-                        <input type="checkbox" class="btn-check dropdown-button" id="Horror" autocomplete="off" onchange="inputGenre(this)">
-                        <label class="btn btn-outline-primary" for="Horror" style="text-align: center; padding: 1vh;">Horror</label>
-
-                        <input type="checkbox" class="btn-check dropdown-button" id="Mystery" autocomplete="off" onchange="inputGenre(this)">
-                        <label class="btn btn-outline-primary" for="Mystery" style="text-align: center; padding: 1vh;">Mystery</label>
+                        {% for genre in genres %}
+                            <input type="checkbox" class="btn-check dropdown-button" id="{{genre}}" autocomplete="off" onchange="inputGenre(this)">
+                            <label class="btn btn-outline-primary" style="width: 36vh;"for="{{genre}}" style="text-align: center; padding: 1vh;">{{genre}}</label>
+                        {% endfor %}
                     </div>
                     <input type="text" id="genre-input" class="genre-input" disabled>
                 </div>

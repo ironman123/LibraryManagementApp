@@ -35,7 +35,9 @@ def librarianDashboard():
 def addBook():
     user = User.query.filter_by(id = session["userID"]).first()
     if request.method == "GET":
-        return render_template('addbook.html',user=user.firstname)
+        genresQyery = Genre.query.with_entities(Genre.name).all()
+        allGenres = [name for (name,) in genresQyery]
+        return render_template('addbook.html', user=user.firstname, genres=allGenres)
     elif request.method == "POST":
         return render_template('addbook.html')
     
@@ -49,7 +51,6 @@ def genreEdit():
         genresQyery = Genre.query.with_entities(Genre.name).all()
         allGenres = [name for (name,) in genresQyery]
         return render_template('genres.html', user=user.firstname, genres=allGenres)
-        return render_template('genres.html', user=user.firstname)
     if request.method == "POST":
         genreError=""
         genreSuccess=""
