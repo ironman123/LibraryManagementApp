@@ -38,7 +38,7 @@ class Book(db.Model):
     id = db.Column(db.Integer(),primary_key = True)
     name = db.Column(db.String(),nullable = False)
     content = db.Column(db.String())
-    description = db.Column(db.String())
+    description = db.Column(db.String(),nullable = False )
 
     #authors = db.relationship('Author',secondary = 'book_author',backref = 'books')
 

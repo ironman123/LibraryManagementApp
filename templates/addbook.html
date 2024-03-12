@@ -2,66 +2,85 @@
 
 {% block rightContent %}
 <div class="glow-bg">
-    <form action = "{{url_for('addBook')}}" method = "post" class="detail-form">
+    <form action = "{{url_for('addBook')}}" method = "post" class="detail-form" enctype=multipart/form-data>
       <div class="glow-text">Add Book</div>
-      <div class="row">
-          <div class="col">
-              <div class="mb-3">
-                  <label for="title" class="form-label">Title</label>
-                  <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{ title }}">
-                  {% if titleError %}
-                  <div class="error-text">{{titleError}}</div>
-                  {% endif %}
-              </div>
-          </div>
-      </div>
-      <div class="row">
-          <div class="col">
-              <div class="mb-3">
-                <label for="authors" class="form-label">Authors</label>
-                <span class="help-tooltip" title="For multiple authors add their names separated by a comma: Author1, Author2, Author3">ⓘ</span>
-                <input type="text" class="form-control" id="authors" placeholder="J. R. R. Tolken, Stephen King" name="authors" value="{{ authors }}">
-                <div class="tooltip" id="authors-tooltip">
-                    For multiple authors add their names separated by a comma
-                </div>  
-                {% if authorsError %}
-                    <div class="error-text">{{authorsError}}</div>
-                {% endif %}
-              </div>
-          </div>
-      </div>
-      <div class="row">
-        <div class="col">
-            <div class="mb-3">
-                <div class="dropdown">Genres
-                    <div class="dropdown-content" id="genre-dropdown">
-                        {% for genre in genres %}
-                            <input type="checkbox" class="btn-check dropdown-button" id="{{genre}}" autocomplete="off" onchange="inputGenre(this)">
-                            <label class="btn btn-outline-primary" style="width: 36vh;"for="{{genre}}" style="text-align: center; padding: 1vh;">{{genre}}</label>
-                        {% endfor %}
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{ title }}">
+                            {% if titleError %}
+                            <div class="error-text">{{titleError}}</div>
+                            {% endif %}
+                        </div>
                     </div>
-                    <input type="text" id="genre-input" class="genre-input" disabled>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                          <label for="authors" class="form-label">Authors</label>
+                          <span class="help-tooltip" title="For multiple authors add their names separated by a comma: Author1, Author2, Author3">ⓘ</span>
+                          <input type="text" class="form-control" id="authors" placeholder="J. R. R. Tolken, Stephen King" name="authors" value="{{ authors }}">
+                          {% if authorsError %}
+                              <div class="error-text">{{authorsError}}</div>
+                          {% endif %}
+                          <div class="tooltip" id="authors-tooltip">
+                              For multiple authors add their names separated by a comma
+                          </div>  
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Description</label>
+                    <textarea class="form-control" name="desc" id="exampleFormControlTextarea1" rows="4">{{desc}}</textarea>
+                    {% if descError %}
+                            <div class="error-text">{{descError}}</div>
+                    {% endif %}
+                </div>
+                {% block fields %}
+                {% endblock %}
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <div class="dropdown">Genres
+                        <div class="dropdown-content" id="genre-dropdown">
+                            {% for genre in genres %}
+                                {% if genre in activeGenres %}
+                                    <input type="checkbox" class="btn-check dropdown-button" id="{{genre}}" autocomplete="off" onchange="inputGenre(this)" checked>
+                                {% else %}
+                                    <input type="checkbox" class="btn-check dropdown-button" id="{{genre}}" autocomplete="off" onchange="inputGenre(this)">
+                                {% endif %}
+                                <label class="btn btn-outline-primary" style="width: 36vh;"for="{{genre}}" style="text-align: center; padding: 1vh;">{{genre}}</label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <input type="text" id="genre-input" class="form-control" name="genres" value="{{genreText}}" rows=3 readonly>
+                        {% if genreError %}
+                            <div class="error-text">{{genreError}}</div>
+                        {% endif %}
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                          <label for="file-upload" class="form-label">Upload File</label>
+                          <input type="file" id="file-upload" name="file" accept=".pdf">
+                          {% if fileError %}
+                            <div class="error-text">{{fileError}}</div>
+                          {% endif %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-      </div>
-      <div class="row">
-          <div class="col">
-              <div class="mb-3">
-                <label for="file-upload" class="form-label">Upload File</label>
-                <input type="file" id="file-upload" name="file-upload" accept=".pdf">
-              </div>
-          </div>
-      </div>
-      {% block fields %}
-      {% endblock %}
-      <div class="row">
-          <div class="col">
-              <div class="mb-3" style="display: flex;justify-content: center;">
-                  <input type="submit" class="btn btn-primary"  value="Submit">
-              </div>
-          </div>
-      </div>
+        <div class="row">
+            <div class="col">
+                <div class="mb-3" style="display: flex;justify-content: center;">
+                    <input type="submit" class="btn btn-primary"  value="Submit">
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 {% endblock %}

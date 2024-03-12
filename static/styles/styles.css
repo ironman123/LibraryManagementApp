@@ -1,3 +1,7 @@
+*{
+    font-family: 'Josefin Sans', 'Lucida Sans', 'sans-serif';
+}
+
 .page-container {
     height: 100vh;
     width: auto;
@@ -211,9 +215,10 @@
     display: flex;
     flex-direction: column;
     flex:1;
-    min-height: 25vh;
-    max-height: 25vh;
+    min-height: 29.5vh;
+    max-height: 29.5vh;
     overflow: hidden;
+    
 }
 
 .dropdown-content{
@@ -223,6 +228,8 @@
     flex-direction: column;
     overflow-y: auto;
 }
+
+
 
 .dropdown-content::-webkit-scrollbar{
     display: none;
@@ -234,6 +241,11 @@
     text-decoration: none;
     color:black;
 }
+
+.dropdown-item:hover{
+    color: #0F1035;
+}
+
 .genre-input{
     margin-top: 1vh;
 }

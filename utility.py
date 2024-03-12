@@ -28,6 +28,8 @@ def is_user(expectedType):
 
 
 def FixText(str):
+    if str == "":
+        return ""
     return re.sub(' +',' ',str)
 
 def IsEmailValid(email):
