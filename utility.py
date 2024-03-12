@@ -1,8 +1,9 @@
-import re
+import re,os
 from flask import render_template,redirect,url_for,session
-from models import db,User
+from models import *
 from werkzeug.security import generate_password_hash
 from functools import wraps
+import fitz
 
 key = "yolo"
 
@@ -44,7 +45,7 @@ def RegisterUser(firstName, lastName, email, password, repassword, securityKey, 
     rePasswordError = ""
     securityKeyError = ""
 
-    
+
 
     if firstName == "":
         fNameError = "First Name is required!"
@@ -101,3 +102,119 @@ def RegisterUser(firstName, lastName, email, password, repassword, securityKey, 
     db.session.add(user)
     db.session.commit()
     return redirect(url_for('index'))
+
+
+def BookAdder(app,title,authors,genres,desc,file):
+    genresQuery = Genre.query.with_entities(Genre.name).all()
+    allGenres = [name for (name,) in genresQuery]
+    authorsQuery = Author.query.with_entities(Author.name).all()
+    allAuthors = [name for (name,) in authorsQuery]
+    
+    titleError=""
+    authorsError=""
+    fileError=""
+    genreError=""
+    descError=""
+
+    if(title == ""):
+            titleError="Title can not be empty!"
+    else:
+        title = FixText(title).title()
+        book = Book.query.filter_by(name=title).first()
+        if book:
+            titleError="Title already exists!"
+
+
+
+    if(authors == ""):
+            authorsError="Authors field can not be empty!"
+    else:
+        authors = [author.strip() for author in FixText(authors).title().split(sep=",")]
+        
+        if titleError == "Title already exists!":
+            bookID = (Book.query.filter_by(name=title).first()).id
+            bookAuthors = Author.query.join(Book_Author).filter(Book_Author.book_id==bookID)
+            newAuthors = [author for author in authors if author not in bookAuthors]
+            if newAuthors == []:
+                authorsError="No new Authors to add!"
+            else:
+                addAuthors = [author for author in newAuthors if author not in allAuthors]
+                if not addAuthors:
+                    for author in addAuthors:
+                        a = Author(name=author.strip())
+                        db.session.add(a)
+                    db.session.commit()
+
+                for author in newAuthors:
+                    a = Book_Author(bookID,Author.query.filter_by(name=a).first().id)
+                    db.session.add(a)
+                db.session.commit()
+        else:
+            addAuthors = [author for author in authors if author not in allAuthors]
+            if not addAuthors:
+                for author in addAuthors:
+                    a = Author(name=author.strip())
+                    db.session.add(a)
+                db.session.commit()
+            
+            #for author in authors:
+            #    a = Book_Author(bookID,Author.query.filter_by(name=a).first().id)
+            #    db.session.add(a)
+            #db.session.commit()
+                
+
+    
+    if genres == "":
+            genreError="This field can not be empty!"
+    else:
+        genres = [genre.strip() for genre in genres.split(sep=",")]
+        for g in genres:
+            if g not in allGenres:
+                genreError += g + " not a valid genre! "
+        
+
+    if desc == "":
+            descError = "A small description is required!"
+    else:
+        print("-------------------")
+        print(desc)
+        print("-------------------")
+
+
+    if file.filename == "":
+        fileError="No file Selected!"
+    
+    if not(fileError or descError or authorsError or genreError or titleError):
+        extension='.pdf'
+        filePath=os.path.join(app.config['UPLOAD_FOLDER'], title)
+        file.save(filePath+extension)
+        
+        book = fitz.open(filePath+extension)
+        cover = fitz.Pixmap(book, book[0].get_images()[0][0])
+
+        if cover.n - cover.alpha > 3:
+            cover = fitz.Pixmap(fitz.csRGB,cover)
+
+        coverPath = os.path.splitext(filePath+extension)[0] + '.png'
+        cover._writeIMG(coverPath,format_="png",jpg_quality=None)
+        
+        cover=None
+        book.close()
+        
+        print("READ FILE!!!")
+
+        book=Book(name=title,content="",description=desc)
+        db.session.add(book)
+        db.session.commit()
+        bookID = Book.query.filter_by(name=title).first().id
+
+        for author in authors:
+            a = Book_Author(bookID,Author.query.filter_by(name=author).first().id)
+            db.session.add(a)
+        db.session.commit()
+        for genre in genres:
+            g = Book_Genre(bookID,Genre.query.filter_by(name=genre).first().id)
+            db.session.add(g)
+        db.session.commit()
+
+    return render_template('addbook.html',title=title,authors=', '.join(authors),genres=allGenres,activeGenres=genres,genreText=', '.join(genres),desc=desc,titleError=titleError,authorsError=authorsError,fileError=fileError,genreError=genreError,descError=descError)

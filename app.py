@@ -1,9 +1,8 @@
 import os
-import fitz
 from flask import Flask,render_template,redirect,request,url_for,session
-from utility import IsEmailValid,RegisterUser,key,login_required,is_user,FixText
+from utility import IsEmailValid,RegisterUser,key,login_required,is_user,FixText,BookAdder
 from models import *
-from werkzeug.security import generate_password_hash,check_password_hash
+from werkzeug.security import check_password_hash
 
 app = Flask(__name__)
 
@@ -43,86 +42,24 @@ def addBook():
         allGenres = [name for (name,) in genresQuery]
         return render_template('addbook.html', user=user.firstname, genres=allGenres)
     elif request.method == "POST":
-        genresQuery = Genre.query.with_entities(Genre.name).all()
-        allGenres = [name for (name,) in genresQuery]
-        authorsQuery = Author.query.with_entities(Author.name).all()
-        allAuthors = [name for (name,) in authorsQuery]
-
-        titleError=""
-        authorsError=""
-        fileError=""
-        genreError=""
-        descError=""
-
+        
         title = request.form.get("title")
-        if(title == ""):
-            titleError="Title can not be empty!"
-        else:
-            title = FixText(title).title()
-
+        
         authors = request.form.get("authors")
-        if(authors == ""):
-            authorsError="Authors field can not be empty!"
-        else:
-            authors = [author.strip() for author in FixText(authors).title().split(sep=",")]
-
-            print("-------------------")
-            print(authors)
-            print("-------------------")
-
+        
         genres = request.form.get("genres")
-        if genres == "":
-            genreError="This field can not be empty!"
-        else:
-            genres = [genre.strip() for genre in genres.split(sep=",")]
-            for g in genres:
-                if g not in allGenres:
-                    genreError += g + " not a valid genre! "
-            print("-------------------")
-            print(genres)
-            print("-------------------")
 
         desc = request.form.get("desc")
 
-        if desc == "":
-            descError = "A small description is required!"
+        file = None
+
+        if 'file' in request.files:
+            file = request.files['file']
         else:
-            print("-------------------")
-            print(desc)
-            print("-------------------")
-
-
-
-        file = request.files['file']
-        if 'file' not in request.files:
-            fileError = "No file part!"
-        elif file.filename == "":
-            fileError="No file Selected!"
+            file = None
         
-        if not(fileError or descError or authorsError or genreError or titleError):
-            extension='.pdf'
-            filePath=os.path.join(app.config['UPLOAD_FOLDER'], title)
-            file.save(filePath+extension)
-            
-            book = fitz.open(filePath+extension)
-            cover = fitz.Pixmap(book, book[0].get_images()[0][0])
+        return BookAdder(app,title,authors,genres,desc,file)
 
-            if cover.n - cover.alpha > 3:
-                cover = fitz.Pixmap(fitz.csRGB,cover)
-
-            coverPath = os.path.splitext(filePath+extension)[0] + '.png'
-            cover._writeIMG(coverPath,format_="png",jpg_quality=None)
-            
-            cover=None
-            book.close()
-            
-            print("READ FILE!!!")
-
-
-
-        
-
-        return render_template('addbook.html',title=title,authors=', '.join(authors),genres=allGenres,activeGenres=genres,genreText=', '.join(genres),desc=desc,titleError=titleError,authorsError=authorsError,fileError=fileError,genreError=genreError,descError=descError)
     
 @app.route("/genre-editor", methods=["GET","POST"])
 @login_required
