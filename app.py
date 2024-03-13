@@ -219,10 +219,6 @@ def deleteBook(bookID):
     
     return redirect(url_for('librarianDashboard'))
 
-@app.route('/cover-images/<path:filename>')
-def coverImage(filename):
-    return send_from_directory("../books",filename)
-
 
 if __name__ == "__main__":
     app.run(debug = True)
