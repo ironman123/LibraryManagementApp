@@ -39,22 +39,17 @@
 {% endblock %}
 
 {% block rightContent %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-8">
-            <h1>Content 1</h1>
+<div class="book-container">
+    {% for book in books %}
+    <div class="card book-card" style="width: 18rem;">
+        <img class="card-img-top"  src="../static/cover-images/{{book.name}}.png" alt="{{book.name}} Cover image">
+        <div class="card-body">
+          <div class="card-title">{{book.name}}</div>
+          <div class="card-text card-body">{{book.description}}</div>
+          <a href="{{url_for('deleteBook',bookID=book.id)}}" class="btn btn-primary">Delete</a>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-8">
-            <h1>Content 1</h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8">
-            <h1>Content 3</h1>
-        </div>
-    </div>
+    {% endfor %}
 </div>
 <a href = "{{url_for('addBook')}}" style="text-decoration: none; text-align: center; color: white;">
     <button type="button" class="add-button animated-button">+</button>

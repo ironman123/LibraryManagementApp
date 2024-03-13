@@ -1,5 +1,5 @@
 import os
-from flask import Flask,render_template,redirect,request,url_for,session
+from flask import Flask,render_template,redirect,request,url_for,session,send_from_directory
 from utility import IsEmailValid,RegisterUser,key,login_required,is_user,FixText,BookAdder
 from models import *
 from werkzeug.security import check_password_hash
@@ -30,7 +30,8 @@ def studentDashboard():
 def librarianDashboard():
     if request.method == "GET":
         user = User.query.filter_by(id = session["userID"]).first()
-        return render_template('librarian-dashboard.html', user = user.firstname)
+        books = Book.query.all()
+        return render_template('librarian-dashboard.html',books=books, user = user.firstname)
     
 @app.route("/add-book", methods=["GET","POST"])
 @login_required
@@ -198,8 +199,29 @@ def removeGenre(genre):
     db.session.commit()
     return redirect(url_for('genreEdit'))
 
-
+@app.route('/delete-book/<string:bookID>')
+@login_required
+@is_user("librarian")
+def deleteBook(bookID):
+    book = Book.query.filter_by(id=bookID).first()
+    bookID = book.id
+    db.session.delete(book)
     
+    genres = Book_Genre.query.filter_by(book_id=bookID).all()
+    for genre in genres:
+        db.session.delete(genre)
+    
+    authors = Book_Author.query.filter_by(book_id=bookID).all()
+    for author in authors:
+        db.session.delete(author)
+    
+    db.session.commit()
+    
+    return redirect(url_for('librarianDashboard'))
+
+@app.route('/cover-images/<path:filename>')
+def coverImage(filename):
+    return send_from_directory("../books",filename)
 
 
 if __name__ == "__main__":

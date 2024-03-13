@@ -142,20 +142,28 @@ def BookAdder(app,title,authors,genres,desc,file):
                 print(authorsError)
             else:
                 addAuthors = [author for author in newAuthors if author not in allAuthors]
-                if not addAuthors:
+                print(addAuthors)
+                if not (addAuthors==[]):
+                    print("Adding new authors to DB")
+                    
                     for author in addAuthors:
                         a = Author(name=author.strip())
                         db.session.add(a)
                     db.session.commit()
-
+                newAuths=[]
                 for author in newAuthors:
-                    
                     authorID = Author.query.filter_by(name=author).first().id
-                    db.session.add(Book_Author(bookID,authorID))
+                    print(bookID)
+                    print(authorID)
+                    newAuths.append(author)
+                    entry = Book_Author(book_id=bookID,author_id=authorID)
+                    db.session.add(entry)
                 db.session.commit()
+                authorsError=', '.join(newAuths)
+                authorsError+= " added for this book!"
         else:
             addAuthors = [author for author in authors if author not in allAuthors]
-            if not addAuthors:
+            if not (addAuthors == []):
                 for author in addAuthors:
                     a = Author(name=author)
                     db.session.add(a)
@@ -175,7 +183,7 @@ def BookAdder(app,title,authors,genres,desc,file):
         for g in genres:
             if g not in allGenres:
                 genreError += g + " not a valid genre! "
-        
+    
 
     if desc == "":
             descError = "A small description is required!"
@@ -199,7 +207,9 @@ def BookAdder(app,title,authors,genres,desc,file):
         if cover.n - cover.alpha > 3:
             cover = fitz.Pixmap(fitz.csRGB,cover)
 
-        coverPath = os.path.splitext(filePath+extension)[0] + '.png'
+        #coverPath = os.path.splitext(filePath+extension)[0] + '.png'
+        coverPath = os.path.join(app.static_folder,'cover-images', os.path.basename(filePath)+'.png')
+        print(coverPath)
         cover._writeIMG(coverPath,format_="png",jpg_quality=None)
         
         cover=None
@@ -214,11 +224,13 @@ def BookAdder(app,title,authors,genres,desc,file):
 
         for author in authors:
             authorID = Author.query.filter_by(name=author).first().id
-            db.session.add(Book_Author(bookID,authorID))
+            db.session.add(Book_Author(book_id=bookID,author_id=authorID))
         db.session.commit()
         for genre in genres:
-            g = Book_Genre(bookID,Genre.query.filter_by(name=genre).first().id)
+            g = Book_Genre(book_id=bookID,genre_id=Genre.query.filter_by(name=genre).first().id)
             db.session.add(g)
         db.session.commit()
+        return redirect(url_for('librarianDashboard'))
+
 
     return render_template('addbook.html',title=title,authors=', '.join(authors),genres=allGenres,activeGenres=genres,genreText=', '.join(genres),desc=desc,titleError=titleError,authorsError=authorsError,fileError=fileError,genreError=genreError,descError=descError)

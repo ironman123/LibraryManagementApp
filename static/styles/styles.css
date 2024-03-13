@@ -1,4 +1,4 @@
-*{
+* {
     font-family: 'Josefin Sans', 'Lucida Sans', 'sans-serif';
 }
 
@@ -62,9 +62,9 @@
     margin-right: auto;
 }
 
-.d-flex{
+.d-flex {
     margin: 1vh 3vw;
-    
+
 }
 
 .styled-button {
@@ -139,13 +139,12 @@
         opacity: 0;
         transform: scale(0);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
     }
 }
-
-
 
 .glow-text {
     font-size: 1.9em;
@@ -198,30 +197,32 @@
     border-top: 1px solid #535353;
 }
 
-.animated-button{
-    transition: all 0.27s cubic-bezier(0.25,0.80,0.25,1);
+.animated-button {
+    transition: all 0.27s cubic-bezier(0.25, 0.80, 0.25, 1);
 }
-.animated-button:hover{
+
+.animated-button:hover {
     transform: scale(1.1);
-    
+
 }
-.animated-button:active{
+
+.animated-button:active {
     transform: scale(0.95);
 }
 
-.dropdown{
+.dropdown {
     font-family: 'Josefin Sans', 'Lucida Sans', 'sans-serif';
     padding: 0.25vh;
     display: flex;
     flex-direction: column;
-    flex:1;
+    flex: 1;
     min-height: 29.5vh;
     max-height: 29.5vh;
     overflow: hidden;
-    
+
 }
 
-.dropdown-content{
+.dropdown-content {
     padding: 0;
     margin-top: 0.5vh;
     display: flex;
@@ -231,21 +232,64 @@
 
 
 
-.dropdown-content::-webkit-scrollbar{
+.dropdown-content::-webkit-scrollbar {
     display: none;
 }
-.dropdown-item{
+
+.dropdown-item {
     margin: 0.25vh;
     font-size: 2.5vh;
     text-align: center;
     text-decoration: none;
-    color:black;
+    color: black;
 }
 
-.dropdown-item:hover{
+.dropdown-item:hover {
     color: #0F1035;
 }
 
-.genre-input{
+.genre-input {
     margin-top: 1vh;
+}
+
+
+.card-text {
+    max-height: 12vh;
+    overflow: auto;
+    background-color: #eeeeee;
+    font-size: 1.5vh;
+    font-family: 'Josefin Sans', 'Lucida Sans', 'sans-serif';
+    margin-bottom: 1vh;
+}
+
+.card-text::-webkit-scrollbar {
+    display: none;
+}
+
+.card-img-top {
+    height: 48vh;
+}
+
+.book-card {
+    margin: 1vh 0.1vh 0 0;
+    padding: 0.3vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    transform: scale(0.9);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    transition: transform 0.12s ease-out;
+}
+
+.book-card:hover {
+    transform: scale(0.96);
+    z-index: 100000;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.card-title {
+    height: 5vh;
+    font-size: 2.1vh;
+    font-weight: 700;
 }

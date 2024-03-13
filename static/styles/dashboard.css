@@ -51,7 +51,7 @@ hr.divider {
 
 .panel-item {
     padding: 10px;
-    transition: all 0.45s cubic-bezier(0.25,0.80,0.25,1);
+    transition: all 0.45s cubic-bezier(0.25, 0.80, 0.25, 1);
 }
 
 .panel-item:hover {
@@ -59,7 +59,7 @@ hr.divider {
     background-size: 200% 100%;
 }
 
-.form-box{
+.form-box {
     height: 86.75vh;
     min-width: 75vw;
     display: flex;
@@ -68,7 +68,7 @@ hr.divider {
     width: 90vh;
 }
 
-.detail-form{
+.detail-form {
     border-radius: 100px;
     padding: 3vh;
     display: flex;
@@ -79,3 +79,10 @@ hr.divider {
     justify-content: space-around;
 }
 
+.book-container {
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 86.75vh;
+    min-width: 80vw;
+}
