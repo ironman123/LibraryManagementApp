@@ -46,7 +46,6 @@ def RegisterUser(firstName, lastName, email, password, repassword, securityKey, 
     securityKeyError = ""
 
 
-
     if firstName == "":
         fNameError = "First Name is required!"
     if email == "":
