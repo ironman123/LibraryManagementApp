@@ -133,10 +133,13 @@ def BookAdder(app,title,authors,genres,desc,file):
         
         if titleError == "Title already exists!":
             bookID = (Book.query.filter_by(name=title).first()).id
-            bookAuthors = Author.query.join(Book_Author).filter(Book_Author.book_id==bookID)
+            bookAuthors = [author.name for author in Author.query.join(Book_Author).filter(Book_Author.book_id==bookID).all()]
             newAuthors = [author for author in authors if author not in bookAuthors]
-            if newAuthors == []:
+            print(newAuthors)
+            print(bookAuthors)
+            if not newAuthors:
                 authorsError="No new Authors to add!"
+                print(authorsError)
             else:
                 addAuthors = [author for author in newAuthors if author not in allAuthors]
                 if not addAuthors:
@@ -146,14 +149,15 @@ def BookAdder(app,title,authors,genres,desc,file):
                     db.session.commit()
 
                 for author in newAuthors:
-                    a = Book_Author(bookID,Author.query.filter_by(name=a).first().id)
-                    db.session.add(a)
+                    
+                    authorID = Author.query.filter_by(name=author).first().id
+                    db.session.add(Book_Author(bookID,authorID))
                 db.session.commit()
         else:
             addAuthors = [author for author in authors if author not in allAuthors]
             if not addAuthors:
                 for author in addAuthors:
-                    a = Author(name=author.strip())
+                    a = Author(name=author)
                     db.session.add(a)
                 db.session.commit()
             
@@ -209,8 +213,8 @@ def BookAdder(app,title,authors,genres,desc,file):
         bookID = Book.query.filter_by(name=title).first().id
 
         for author in authors:
-            a = Book_Author(bookID,Author.query.filter_by(name=author).first().id)
-            db.session.add(a)
+            authorID = Author.query.filter_by(name=author).first().id
+            db.session.add(Book_Author(bookID,authorID))
         db.session.commit()
         for genre in genres:
             g = Book_Genre(bookID,Genre.query.filter_by(name=genre).first().id)
