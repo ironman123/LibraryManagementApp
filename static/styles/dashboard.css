@@ -84,5 +84,15 @@ hr.divider {
     display: flex;
     flex-wrap: wrap;
     max-height: 86.75vh;
-    min-width: 80vw;
+    min-width: 100%;
+}
+
+.status-text
+{
+    position: fixed;
+    font-size: 2.3vh;
+    text-align: center;
+    width: auto;
+    margin-left: 20vw;
+    left:14%;
 }

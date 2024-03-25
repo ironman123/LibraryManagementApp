@@ -39,16 +39,25 @@
 {% endblock %}
 
 {% block rightContent %}
+
 <div class="book-container">
+    {% if deleteMsg %}
+    <div class="error-text status-text">{{deleteMsg}}</div>    
+    {% elif issueMsg %}
+    <div class="success-text status-text">{{issueMsg}}</div>    
+    {% endif %}
     {% for book in books %}
+    <a href="{{url_for('book',bookID=book.id)}}" style="text-decoration: none; color: inherit;">
     <div class="card book-card" style="width: 18rem;">
-        <img class="card-img-top"  src="../static/cover-images/{{book.name}}.png" alt="{{book.name}} Cover image">
+        <img class="card-img-top" src="../static/cover-images/{{book.name}}.png" alt="{{book.name}} Cover image">
         <div class="card-body">
           <div class="card-title">{{book.name}}</div>
           <div class="card-text card-body">{{book.description}}</div>
-          <a href="{{url_for('deleteBook',bookID=book.id)}}" class="btn btn-primary">Delete</a>
+          <a href="{{url_for('issueBook',bookID=book.id)}}" class="btn btn-warning" style="margin-top: 1vh; color: white;">Issue</a>
+          <a href="{{url_for('deleteBook',bookID=book.id)}}" class="btn btn-danger" style="margin-top: 1vh;">Delete</a>
         </div>
     </div>
+    </a>
     {% endfor %}
 </div>
 <a href = "{{url_for('addBook')}}" style="text-decoration: none; text-align: center; color: white;">

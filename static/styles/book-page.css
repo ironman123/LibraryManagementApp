@@ -1,0 +1,23 @@
+.book-page.container{
+    height: 80.25vh;
+    display: flex;
+    flex-direction: column;
+    padding: 3vh;
+    margin:0.5vh;
+}
+.book-page::-webkit-scrollbar{
+    display: none;
+}
+
+.card.author-col,.card.genre-col,.card.book-col
+{
+    height: 80vh;
+    margin-bottom: 1vh;
+    overflow-y: auto;
+}
+
+.book-col
+{
+    flex:2.7;
+    margin:0;
+}

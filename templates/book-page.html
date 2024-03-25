@@ -1,0 +1,125 @@
+{% extends "dashboard.html" %}
+
+{% block dashboardHead %}
+    {% if userType == "librarian" %}
+    <title>Librarian {{bookID}}</title>
+    <link href="../static/styles/librarian-dashboard.css" rel="stylesheet">
+    {% else %}
+    <title>Student Dashboard</title>
+    <link href="../static/styles/student-dashboard.css" rel="stylesheet">
+    {% endif %}
+    <link href="../static/styles/book-page.css" rel="stylesheet">
+{% endblock %}
+
+{% block leftContent %}
+    {% if userType == "librarian" %}
+    <a href="{{url_for('librarianDashboard')}}" class = "panel-item" id="homeLabel">Home</a>
+    <hr class = "divider">
+    <a href="/" class = "panel-item" id="favouriteLabel">Favourites</a>
+    <hr class = "divider">
+    <a href="/" class = "panel-item" id="issuedLabel">Issued</a>
+    <hr class = "divider">
+    <a href="/" class = "panel-item" id="historyLabel">History</a>
+    <hr class = "divider">
+    <a href="/" class = "panel-item" id="bookLabel">Books</a>
+    <hr class = "divider">
+    <a href="{{url_for('genreEdit')}}" class = "panel-item" id="genreLabel">Genres</a>
+    <hr class = "divider">
+    <div class = "heading">Recents</div>
+    <div class = "panel-item">7</div>
+    <hr class = "divider">
+    <div class = "panel-item">8</div>
+    <hr class = "divider">
+    <div class = "panel-item">9</div>
+    <hr class = "divider">
+    <div class = "panel-item">10</div>
+    <hr class = "divider">
+    <div class = "panel-item">11</div>
+    <hr class = "divider">
+    <div class = "panel-item">12</div>
+    <hr class = "divider">
+    <div class = "panel-item">13</div>
+    <hr class = "divider">
+    <div class = "panel-item">14</div>
+    <hr class = "divider">
+    <div class = "panel-item">15</div>
+    {% else %}
+    <a href="{{url_for('studentDashboard')}}" class = "panel-item" id="homeLabel">Home</a>
+    <hr class = "divider">
+    <a href="/" class = "panel-item" id="favouriteLabel">Favourites</a>
+    <hr class = "divider">
+    <a href="/" class = "panel-item" id="issuedLabel">Issued</a>
+    <hr class = "divider">
+    <a href="/" class = "panel-item" id="historyLabel">History</a>
+    <hr class = "divider">
+    <div class = "panel-item">4</div>
+    <hr class = "divider">
+    <div class = "panel-item">5</div>
+    <hr class = "divider">
+    <div class = "panel-item">6</div>
+    <div class = "heading">Recents</div>
+    <div class = "panel-item">7</div>
+    <hr class = "divider">
+    <div class = "panel-item">8</div>
+    <hr class = "divider">
+    <div class = "panel-item">9</div>
+    <hr class = "divider">
+    <div class = "panel-item">10</div>
+    <hr class = "divider">
+    <div class = "panel-item">11</div>
+    <hr class = "divider">
+    <div class = "panel-item">12</div>
+    <hr class = "divider">
+    <div class = "panel-item">13</div>
+    <hr class = "divider">
+    <div class = "panel-item">14</div>
+    <hr class = "divider">
+    <div class = "panel-item">15</div>
+    {% endif %}
+{% endblock %}
+
+{% block rightContent %}
+    {% if userType == "librarian" %}
+    <div class="book-page container">
+        <div class="row">
+            <div class="col-sm-3">
+              <div class="card author-col">
+                <div class="card-body">
+                    <h5 class="card-title">Authors</h5>
+                    {% for author in authors %}
+                        <a href="#" class="btn btn-primary" style="margin-bottom:1vh">{{author}}</a>
+                    {% endfor %}                
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="card book-col">
+                <div class="card-body">
+                    <div class="left-column">
+                        <h4 class="" style="margin-top: 2vh;">{{book.name}}</h4>
+                        <img class="card-img" src="../static/cover-images/{{book.name}}.png" alt="{{book.name}} Cover image">
+                    </div>
+                    <div class="right-column">
+                        <p class="book-desc" style="margin-top: 1vh;">{{book.description}}</p>
+                        <a href="#" class="btn btn-warning" style="margin-top: 1vh; margin-bottom: 2vh; margin-left: 80%;">Read</a>
+                    </div>
+                </div>                
+              </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card genre-col">
+                  <div class="card-body">
+                    <h5 class="card-title">Genres</h5>
+                    {% for genre in genres %}
+                        <a href="#" class="btn btn-primary" style="margin-bottom:1vh">{{genre}}</a>
+                    {% endfor %}
+                  </div>
+               </div>
+            </div>
+        </div>
+    </div>  
+    
+    {% else %}
+    <div> Student Book</div>
+    {% endif %}
+{% endblock %}
