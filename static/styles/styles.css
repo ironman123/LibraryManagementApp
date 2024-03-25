@@ -256,7 +256,7 @@
 .card-text {
     max-height: 15vh;
     overflow: auto;
-    background-color: #ececec;
+    background-color: rgb(236, 236, 236,0.45);
     font-size: 1.9vh;
     font-family: 'Josefin Sans', 'Lucida Sans', 'sans-serif';
     margin-bottom: 1vh;    

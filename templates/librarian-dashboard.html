@@ -48,7 +48,7 @@
     {% endif %}
     {% for book in books %}
     <a href="{{url_for('book',bookID=book.id)}}" style="text-decoration: none; color: inherit;">
-    <div class="card book-card" style="width: 18rem;">
+    <div class="card book-card glow-bg" style="width: 18rem;">
         <img class="card-img-top" src="../static/cover-images/{{book.name}}.png" alt="{{book.name}} Cover image">
         <div class="card-body">
           <div class="card-title">{{book.name}}</div>
