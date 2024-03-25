@@ -87,7 +87,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Authors</h5>
                     {% for author in authors %}
-                        <a href="#" class="btn btn-primary" style="margin-bottom:1vh">{{author}}</a>
+                        <a href="{{url_for('authorPage',authorName=author)}}" class="btn btn-primary" style="margin-bottom:1vh">{{author}}</a>
                     {% endfor %}                
                 </div>
               </div>
@@ -111,7 +111,7 @@
                   <div class="card-body">
                     <h5 class="card-title">Genres</h5>
                     {% for genre in genres %}
-                        <a href="#" class="btn btn-primary" style="margin-bottom:1vh">{{genre}}</a>
+                        <a href="{{url_for('genrePage',genreName=genre)}}" class="btn btn-primary" style="margin-bottom:1vh">{{genre}}</a>
                     {% endfor %}
                   </div>
                </div>

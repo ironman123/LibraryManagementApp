@@ -245,7 +245,48 @@ def issueBook(bookID):
     session['issueMsg'] = "Issued:-> " + book.name
     return redirect(url_for('librarianDashboard'))
 
+@app.route('/genre/<string:genreName>')
+@login_required
+def genrePage(genreName):
+    if request.method == "GET":
+        genre = genreName.title()
+        user = User.query.filter_by(id = session["userID"]).first()
+        fetched = Genre.query.filter_by(name = genre).first()
+        if (not fetched):
+            session['deleteMsg'] = "Invalid Genre:-> " + genre
+            return redirect(url_for('librarianDashboard'))
+        genreID = fetched.id
+        
+        books = Book.query.join(Book_Genre).filter(Book_Genre.genre_id==genreID).all()
+        issueMsg = session.pop('issueMsg', None)
+        deleteMsg = session.pop('deleteMsg', None)
+        
+        if session['userType'] == "librarian":
+            return render_template('librarian-dashboard.html',books=books, user = user.firstname,issueMsg=issueMsg,deleteMsg=deleteMsg)
+        else:
+            return render_template('student-dashboard.html',books=books, user = user.firstname,issueMsg=issueMsg,deleteMsg=deleteMsg)
 
+@app.route('/author/<string:authorName>')
+@login_required
+def authorPage(authorName):
+    if request.method == "GET":
+        author = FixText(authorName).title()
+        user = User.query.filter_by(id = session["userID"]).first()
+        fetched = Author.query.filter_by(name = author).first()
+
+        if (not fetched):
+            session['deleteMsg'] = "Invalid Author:-> " + author
+            return redirect(url_for('librarianDashboard'))
+        authorID = fetched.id
+
+        books = Book.query.join(Book_Author).filter(Book_Author.author_id==authorID).all()
+        issueMsg = session.pop('issueMsg', None)
+        deleteMsg = session.pop('deleteMsg', None)
+        
+        if session['userType'] == "librarian":
+            return render_template('librarian-dashboard.html',books=books, user = user.firstname,issueMsg=issueMsg,deleteMsg=deleteMsg)
+        else:
+            return render_template('student-dashboard.html',books=books, user = user.firstname,issueMsg=issueMsg,deleteMsg=deleteMsg)
 
 if __name__ == "__main__":
     app.run(debug = True)
