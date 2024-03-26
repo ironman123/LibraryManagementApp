@@ -101,8 +101,11 @@ def genreEdit():
                 if(not genre):
                     genreError="Genre Does Not Exist!"
                 else:
+                    books_genres = Book_Genre.query.filter_by(genre_id=genre.id).all()
                     genreSuccess=genreName+" deleted*"
                     db.session.delete(genre)
+                    for book_genre in books_genres:
+                        db.session.delete(book_genre)
                     db.session.commit()
             
         genresQuery = Genre.query.with_entities(Genre.name).all()
@@ -209,7 +212,10 @@ def signout():
 @is_user("librarian")
 def removeGenre(genre):
     genreEntry = Genre.query.filter_by(name = genre).first()
+    books_genres = Book_Genre.query.filter_by(genre_id=genreEntry.id).all()
     db.session.delete(genreEntry)
+    for book_genre in books_genres:
+        db.session.delete(book_genre)
     db.session.commit()
     return redirect(url_for('genreEdit'))
 
