@@ -186,10 +186,6 @@ def BookAdder(app,title,authors,genres,desc,file):
 
     if desc == "":
             descError = "A small description is required!"
-    else:
-        print("-------------------")
-        print(desc)
-        print("-------------------")
 
 
     if file.filename == "":

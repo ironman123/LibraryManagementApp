@@ -1,0 +1,46 @@
+{% extends "librarian-dashboard.html" %}
+
+{% block dashboardHead %}
+    <title>Author Editor</title>
+    <link href="../static/styles/author-style.css" rel="stylesheet">
+    <link href="../static/styles/librarian-dashboard.css" rel="stylesheet">
+{% endblock %}
+
+{% block rightContent %}
+    <div class="body-container author-page">
+        {% if userType == "librarian" %}
+        <div class="authorAdder">
+            <form action="/author-editor" method="POST">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="authorText" placeholder="Author" aria-describedby="button-addon4">
+                    <div class="input-group-append" id="button-addon4">
+                        <button class="btn btn-outline-success" name="action" value="add" type="submit">Add</button>
+                        <button class="btn btn-outline-danger" name="action" value="delete" type="submit">Delete</button>
+                    </div>
+                </div>
+                {% if authorError %}
+                    <div class="error-text">{{authorError}}</div>
+                {% endif %}
+                {% if authorSuccess %}
+                    <div class="success-text">{{authorSuccess}}</div>
+                {% endif %}
+            </form>
+        </div>
+        {% endif %}
+        <div class="page-content">
+            <div class="grid">
+              {% for author in authors %}
+                <div class="author-card shadow-lg p-3 mb-5 bg-white rounded">
+                  <h5 class="card-title zoom-text">{{author}}</h5>
+                  <div class="author-card-body">
+                    <a href="{{url_for('authorPage',authorName=author)}}" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                    {% if userType == "librarian" %}
+                    <a href="{{url_for('removeAuthor',author=author)}}" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

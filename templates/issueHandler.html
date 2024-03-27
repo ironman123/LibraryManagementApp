@@ -1,0 +1,95 @@
+{% extends "librarian-dashboard.html" %}
+
+{% block dashboardHead %}
+    <title>Author Editor</title>
+    <link href="../static/styles/issue-handler.css" rel="stylesheet">
+    <link href="../static/styles/librarian-dashboard.css" rel="stylesheet">
+{% endblock %}
+
+{% block rightContent %}
+        <div class="issue-handler-page">
+        {% for issueRequest in issueRequests %}
+            {% if issueRequest.status == "requested" %}
+            <div class="issue-card requested">
+                <div class="issue-card-row">
+                    <div class="issue-card-header" style="width: 18%;">User ID</div>
+                    <div class="issue-card-header" style="width: 27%;">User</div>
+                    <div class="issue-card-header">Book</div>
+                    <div class="issue-card-header">Status</div>
+                </div>
+                <hr style="border: 1px solid white;">
+                <div class="issue-card-row">
+                    <div class="issue-card-content" style="width: 18%;">{{users[issueRequest.user_id].id}}</div>
+                    <div class="issue-card-content" style="width: 27%;">{{users[issueRequest.user_id].firstname + " " + users[issueRequest.user_id].lastname}}</div>
+                    <div class="issue-card-content">{{books[issueRequest.book_id].name}}</div>
+                    <div class="issue-card-content">{{issueRequest.status}}</div>
+                </div>
+                <div class="button-container">
+                    <a class="button tick-button">Issue</a>
+                    <a class="button cross-button">Reject</a>
+                </div>
+            </div>
+            {% elif issueRequest.status == "issued" %}
+            <div class="issue-card issued">
+                <div class="issue-card-row">
+                    <div class="issue-card-header" style="width: 18%;">User ID</div>
+                    <div class="issue-card-header" style="width: 27%;">User</div>
+                    <div class="issue-card-header">Book</div>
+                    <div class="issue-card-header">Status</div>
+                </div>
+                <hr style="border: 1px solid white;">
+                <div class="issue-card-row">
+                    <div class="issue-card-content" style="width: 18%;">{{users[issueRequest.user_id].id}}</div>
+                    <div class="issue-card-content" style="width: 27%;">{{users[issueRequest.user_id].firstname + " " + users[issueRequest.user_id].lastname}}</div>
+                    <div class="issue-card-content">{{books[issueRequest.book_id].name}}</div>
+                    <div class="issue-card-content">{{issueRequest.status}}</div>
+                </div>
+                <div class="button-container">
+                    <a class="button tick-button">Re-Issue</a>
+                    <a class="button cross-button">Revoke</a>
+                </div>
+            </div>
+            {% elif issueRequest.status == "revoked" %}
+            <div class="issue-card revoked">
+                <div class="issue-card-row">
+                    <div class="issue-card-header" style="width: 18%;">User ID</div>
+                    <div class="issue-card-header" style="width: 27%;">User</div>
+                    <div class="issue-card-header">Book</div>
+                    <div class="issue-card-header">Status</div>
+                </div>
+                <hr style="border: 1px solid white;">
+                <div class="issue-card-row">
+                    <div class="issue-card-content" style="width: 18%;">{{users[issueRequest.user_id].id}}</div>
+                    <div class="issue-card-content" style="width: 27%;">{{users[issueRequest.user_id].firstname + " " + users[issueRequest.user_id].lastname}}</div>
+                    <div class="issue-card-content">{{books[issueRequest.book_id].name}}</div>
+                    <div class="issue-card-content">{{issueRequest.status}}</div>
+                </div>
+                <div class="button-container">
+                    <a class="button tick-button">Issue</a>
+                    <a class="button cross-button">Revoke</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="issue-card returned">
+                <div class="issue-card-row">
+                    <div class="issue-card-header" style="width: 18%;">User ID</div>
+                    <div class="issue-card-header" style="width: 27%;">User</div>
+                    <div class="issue-card-header">Book</div>
+                    <div class="issue-card-header">Status</div>
+                </div>
+                <hr style="border: 1px solid white;">
+                <div class="issue-card-row">
+                    <div class="issue-card-content" style="width: 18%;">{{users[issueRequest.user_id].id}}</div>
+                    <div class="issue-card-content" style="width: 27%;">{{users[issueRequest.user_id].firstname + " " + users[issueRequest.user_id].lastname}}</div>
+                    <div class="issue-card-content">{{books[issueRequest.book_id].name}}</div>
+                    <div class="issue-card-content">{{issueRequest.status}}</div>
+                </div>
+                <div class="button-container">
+                    <a class="button tick-button">Issue</a>
+                    <a class="button cross-button">Revoke</a>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+{% endblock %}

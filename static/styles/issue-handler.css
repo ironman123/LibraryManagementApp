@@ -1,0 +1,93 @@
+.issue-handler-page
+{
+    display: flex;
+    width: 84vw;
+    height: 80vh;
+    overflow-y: auto;
+    flex-direction: column;
+    margin: 3vh;
+    padding: 3vh;
+}
+
+.issue-card {
+    width: 80vw; /* Set the width to almost the width of the screen */
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    box-sizing: border-box;
+    color:white;
+    margin: 1.5vh auto; /* Center the card horizontally */
+}
+
+.issue-card-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1vh;
+}
+
+.issue-card-header {
+    font-weight: bold;
+    width: 50%;
+    margin:auto 1vh;
+}
+
+.issue-card-content {
+    flex-grow: 1;
+    width: 50%;
+    margin:auto 1vh;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-left: 2vw;
+    text-decoration: none;
+}
+
+.tick-button {
+    background-color: #5cb85c;
+    color: #fff;
+}
+.tick-button:hover {
+    background-color: #4da04d;
+}
+
+.cross-button {
+    background-color: #d9534f;
+    color: #fff;
+}
+.cross-button:hover {
+    background-color: #b64441;
+}
+
+.requested
+{
+    background-color: rgb(255, 201, 54);
+    border: 1px solid rgb(197, 120, 27);
+}
+
+.issued
+{
+    background-color: rgb(26, 168, 109);
+    border: 1px solid rgb(13, 117, 74);
+}
+
+.revoked
+{
+    background-color: rgb(179, 29, 99);
+    border: 1px solid rgb(147, 0, 119);
+}
+.returned
+{
+    background-color: #0e6c8f;
+    border: 1px solid #073d83;
+}

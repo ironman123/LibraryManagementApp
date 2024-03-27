@@ -14,11 +14,10 @@
     <hr class = "divider">
     <a href="/" class = "panel-item" id="historyLabel">History</a>
     <hr class = "divider">
-    <div class = "panel-item">4</div>
+    <a href="{{url_for('authorEdit')}}" class = "panel-item" id="authorLabel">Authors</a>
     <hr class = "divider">
-    <div class = "panel-item">5</div>
+    <a href="{{url_for('genreEdit')}}" class = "panel-item" id="genreLabel">Genres</a>
     <hr class = "divider">
-    <div class = "panel-item">6</div>
     <div class = "heading">Recents</div>
     <div class = "panel-item">7</div>
     <hr class = "divider">
@@ -40,5 +39,24 @@
 {% endblock %}
 
 {% block rightContent %}
-    
+<div class="book-container">
+    {% if deleteMsg %}
+    <div class="error-text status-text">{{deleteMsg}}</div>    
+    {% elif issueMsg %}
+    <div class="success-text status-text">{{issueMsg}}</div>    
+    {% endif %}
+    {% for book in books %}
+    <a href="{{url_for('book',bookID=book.id)}}" style="text-decoration: none; color: inherit;">
+    <div class="card book-card glow-bg" style="width: 18rem;">
+        <img class="card-img-top" src="../static/cover-images/{{book.name}}.png" alt="{{book.name}} Cover image">
+        <div class="card-body">
+          <div class="card-title">{{book.name}}</div>
+          <div class="card-text card-body">{{book.description}}</div>
+          <a href="{{url_for('issueBook',bookID=book.id)}}" class="btn btn-warning" style="margin-top: 1vh; color: white;">Issue</a>
+          <a href="{{url_for('studentDashboard',bookID=book.id)}}" class="btn btn-info" style="margin-top: 1vh;color: white;">Read</a>
+        </div>
+    </div>
+    </a>
+    {% endfor %}
+</div>
 {% endblock %}

@@ -8,6 +8,7 @@
 
 {% block rightContent %}
     <div class="body-container genre-page">
+        {% if userType == "librarian" %}
         <div class="genreAdder">
             <form action="/genre-editor" method="POST">
                 <div class="input-group">
@@ -25,14 +26,17 @@
                 {% endif %}
             </form>
         </div>
+        {% endif %}
         <div class="page-content">
             <div class="grid">
               {% for genre in genres %}
                 <div class="genre-card shadow-lg p-3 mb-5 bg-white rounded">
                   <h5 class="card-title zoom-text">{{genre}}</h5>
                   <div class="genre-card-body">
-                    <a href="{{url_for('librarianDashboard')}}" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                    <a href="{{url_for('genrePage',genreName=genre)}}" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                    {% if userType == "librarian" %}
                     <a href="{{url_for('removeGenre',genre=genre)}}" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    {% endif %}
                   </div>
                 </div>
               {% endfor %}

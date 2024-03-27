@@ -287,7 +287,7 @@
 .book-card:hover {
     transform: scale(0.96);
     z-index: 100000;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.39);
 }
 
 .card-title {
@@ -298,4 +298,33 @@
 
 .card-body{
     height: 33vh;
+}
+
+.book-card-button.btn
+{
+    padding-left: 4%;
+    padding-right: 4%;
+    margin-top: 1vh;
+    color: white;
+}
+.fav-btn-active.book-card-button
+{
+    border:1px solid rgb(250, 68, 123);
+    background-color: rgb(250, 68, 123);
+}
+.fav-btn-active.book-card-button:hover
+{
+    border:1px solid rgb(238, 39, 99);
+    background-color: rgb(238, 39, 99);
+    color:rgb(255, 232, 241);
+}
+.fav-btn-disabled.book-card-button
+{
+    border:1px solid rgb(250, 68, 123);
+    color:rgb(250, 68, 123);
+}
+.fav-btn-disabled.book-card-button:hover
+{
+    border:1px solid rgb(250, 64, 120);
+    background-color: rgb(250, 64, 120);
 }
