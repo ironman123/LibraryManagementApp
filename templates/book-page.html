@@ -118,8 +118,44 @@
             </div>
         </div>
     </div>  
-    
     {% else %}
-    <div> Student Book</div>
+    <div class="book-page container">
+        <div class="row">
+            <div class="col-sm-3">
+              <div class="card author-col">
+                <div class="card-body">
+                    <h5 class="card-title">Authors</h5>
+                    {% for author in authors %}
+                        <a href="{{url_for('authorPage',authorName=author)}}" class="btn btn-primary" style="margin-bottom:1vh">{{author}}</a>
+                    {% endfor %}                
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="card book-col">
+                <div class="card-body">
+                    <div class="left-column">
+                        <h4 class="" style="margin-top: 2vh; padding: 1vh 1vh; position:sticky; top:0; background-color: white;">{{book.name}}</h4>
+                        <img class="card-img" src="../static/cover-images/{{book.name}}.png" alt="{{book.name}} Cover image">
+                    </div>
+                    <div class="right-column">
+                        <p class="book-desc" style="margin-top: 1vh;">{{book.description}}</p>
+                        <a href="#" class="btn btn-warning" style="margin-top: 1vh; margin-bottom: 2vh; margin-left: 80%;">Read</a>
+                    </div>
+                </div>                
+              </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card genre-col">
+                  <div class="card-body">
+                    <h5 class="card-title">Genres</h5>
+                    {% for genre in genres %}
+                        <a href="{{url_for('genrePage',genreName=genre)}}" class="btn btn-primary" style="margin-bottom:1vh">{{genre}}</a>
+                    {% endfor %}
+                  </div>
+               </div>
+            </div>
+        </div>
+    </div> 
     {% endif %}
 {% endblock %}

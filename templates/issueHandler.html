@@ -9,9 +9,9 @@
 {% block rightContent %}
     <div class="book-container">
         {% if deleteMsg %}
-        <div class="error-text status-text">{{deleteMsg}}</div>    
+        <div class="error-text status-text" style="margin-right: auto; margin-left: auto; padding: 1vh 1vh; z-index: 99999; position:sticky; top:0; left:0;width:82vw;background-color: rgb(255, 230, 230);">{{deleteMsg}}</div>    
         {% elif issueMsg %}
-        <div class="success-text status-text">{{issueMsg}}</div>    
+        <div class="success-text status-text" style="margin-right: auto; margin-left: auto; padding: 1vh 1vh; z-index: 99999; position:sticky; top:0; left:0; width:82vw;background-color: rgb(241, 255, 224);">{{issueMsg}}</div>    
         {% endif %}
         <div class="issue-handler-page">
         {% for issueRequest in issueRequests %}

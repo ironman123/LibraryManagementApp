@@ -42,9 +42,9 @@
 
 <div class="book-container">
     {% if deleteMsg %}
-    <div class="error-text status-text">{{deleteMsg}}</div>    
+    <div class="error-text status-text" style=" margin: 2vh; padding: 1vh 1vh;z-index: 99999; position:sticky; top:0; width:84vw;background-color: rgb(255, 230, 230);">{{deleteMsg}}</div>    
     {% elif issueMsg %}
-    <div class="success-text status-text">{{issueMsg}}</div>    
+    <div class="success-text status-text" style=" margin: 2vh; padding: 1vh 1vh;z-index: 99999; position:sticky; top:0; width:84vw;background-color: rgb(241, 255, 224);">{{issueMsg}}</div>    
     {% endif %}
     {% for book in books %}
     <a href="{{url_for('book',bookID=book.id)}}" style="text-decoration: none; color: inherit;">
