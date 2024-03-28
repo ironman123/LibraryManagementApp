@@ -9,10 +9,11 @@ function toggleFlex()
 
     var homeLabel = document.getElementById('homeLabel');
     var issuedLabel = document.getElementById('issuedLabel');
-    var historyLabel = document.getElementById('historyLabel');
-    var bookLabel = document.getElementById('bookLabel');
-    var genreLabel = document.getElementById('genreLabel');
+    var requestLabel = document.getElementById('requestLabel');
+    //var bookLabel = document.getElementById('bookLabel');
 
+    var genreLabel = document.getElementById('genreLabel'); 
+    var authorLabel = document.getElementById('authorLabel');
 
     if (checkbox.checked)
     {
@@ -21,9 +22,10 @@ function toggleFlex()
         homeLabel.innerHTML = 'Home';
         favouriteLabel.innerHTML = 'Favourites';
         issuedLabel.innerHTML = 'Issued';
-        historyLabel.innerHTML = 'History';
-        bookLabel.innerHTML = "Books"
-        genreLabel.innerHTML = "Genre";
+        requestLabel.innerHTML = 'Requests';
+        //bookLabel.innerHTML = "Books"
+        genreLabel.innerHTML = 'Genres';
+        authorLabel.innerHTML = 'Authors';
     }
     else
     {
@@ -32,9 +34,10 @@ function toggleFlex()
         homeLabel.innerHTML = '<img src="../static/images/home.png" alt="Home Icon" height = "' + panelItemHeight + '">';
         favouriteLabel.innerHTML = '<img src="../static/images/favourite.png" alt="Heart Icon" height = "' + panelItemHeight + '">';
         issuedLabel.innerHTML = '<img src="../static/images/issued.png" alt="Book Icon" height = "' + panelItemHeight + '">';
-        historyLabel.innerHTML = '<img src="../static/images/history.png" alt="History Icon" height = "' + panelItemHeight + '">';
-        bookLabel.innerHTML = '<img src="../static/images/book.png" alt="Book Editor" height = "' + panelItemHeight + '">';
+        requestLabel.innerHTML = '<img src="../static/images/request.png" alt="Request Icon" height = "' + panelItemHeight + '">';
+        //bookLabel.innerHTML = '<img src="../static/images/book.png" alt="Book Editor" height = "' + panelItemHeight + '">';
         genreLabel.innerHTML = '<img src="../static/images/genre.png" alt="Genre Editor" height = "' + panelItemHeight + '">';
+        authorLabel.innerHTML = '<img src="../static/images/author.png" alt="Author Editor" height = "' + panelItemHeight + '">';
     }
 }
 
