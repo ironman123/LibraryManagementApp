@@ -1,23 +1,32 @@
+.book-container
+{
+    width: auto;
+}
 .issue-handler-page
 {
     display: flex;
-    width: 84vw;
+    flex:1;
+    min-width: 84vw;
+    width: auto;
     height: 80vh;
     overflow-y: auto;
     flex-direction: column;
     margin: 3vh;
-    padding: 3vh;
+    margin-top: 3.5vh;
+    padding: 1vh;
 }
 
 .issue-card {
-    width: 80vw; /* Set the width to almost the width of the screen */
+    flex:1;
+    min-width: 80vw;
+    width: auto;
     background-color: #f9f9f9;
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
     box-sizing: border-box;
     color:white;
-    margin: 1.5vh auto; /* Center the card horizontally */
+    margin: 1.5vh auto;
 }
 
 .issue-card-row {
@@ -38,9 +47,26 @@
     margin:auto 1vh;
 }
 
+.footer
+{
+    display: flex;
+    
+    justify-content: space-between;
+}
+
+.date-container
+{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 10px;
+    gap:4.5vw;
+}
+
 .button-container {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     margin-top: 10px;
 }
 
@@ -69,9 +95,12 @@
     background-color: #b64441;
 }
 
+.footer
+{}
+
 .requested
 {
-    background-color: rgb(247, 191, 39);
+    background-color: rgb(235, 180, 29);
     border: 1px solid rgb(197, 120, 27);
 }
 
@@ -86,6 +115,13 @@
     background-color: rgb(179, 29, 99);
     border: 1px solid rgb(147, 0, 119);
 }
+
+.rejected
+{
+    background-color: rgb(179, 29, 42);
+    border: 1px solid rgb(147, 0, 37);
+}
+
 .returned
 {
     background-color: #0e6c8f;

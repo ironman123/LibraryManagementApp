@@ -361,7 +361,7 @@ def issueBook(bookID):
     #useless redirect should delete later
     return redirect(url_for('librarianDashboard'))
 
-@app.route('/requests/')
+@app.route('/requests')
 @login_required
 @is_user("librarian")
 def requestsHandler():
@@ -378,7 +378,10 @@ def requestsHandler():
         for book in allBooks:
             books[book.id] = book
         
-        return render_template('issueHandler.html',user=user,issueRequests=issueRequests,users=users,books=books)
+        issueMsg = session.pop('issueMsg',None)
+        deleteMsg = session.pop('deleteMsg',None)
+
+        return render_template('issueHandler.html',user=user,issueRequests=issueRequests,users=users,books=books,issueMsg=issueMsg,deleteMsg=deleteMsg)
 
 
 
@@ -424,6 +427,95 @@ def authorPage(authorName):
             return render_template('librarian-dashboard.html',books=books, user = user,issueMsg=issueMsg,deleteMsg=deleteMsg)
         else:
             return render_template('student-dashboard.html',books=books, user = user,issueMsg=issueMsg,deleteMsg=deleteMsg)
+
+@app.route('/request-processor/<string:issueID>/<string:action>')
+@login_required
+@is_user("librarian")
+def requestProcessor(issueID,action):
+    issue = Issue.query.filter_by(id=issueID).first()
+
+    if not issue:
+        session["deleteMsg"] = "Invalid issue ID!"
+    else:
+        if issue.status == "requested":
+            if action == "issue":
+                issueDate = db.func.current_timestamp()
+                returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days')
+                issue.issue_date = issueDate
+                issue.return_date= returnDate
+                issue.status = "issued"
+                db.session.commit()
+                session["issueMsg"] = "Successfully Issued*"
+            elif action == "reject":
+                issue.status = "rejected"
+                db.session.commit()
+                session["issueMsg"] = "Rejected Request!"
+            else:
+                session["deleteMsg"] = "Invalid Action for Requested!!!"
+        elif issue.status == "issued":
+            if action == "revoke":
+                issue.status = "revoked"
+                db.session.commit()
+                session["issueMsg"] = "Successfully Revoked Access*"
+            elif action == "reissue":
+                issueDate = db.func.current_timestamp()
+                returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days')
+                issue.issue_date = issueDate
+                issue.return_date= returnDate
+                db.session.commit()
+                session["issueMsg"] = "Successfully Re-Issued*"
+            else:
+                session["deleteMsg"] = "Invalid Action for Issued!!!"
+        elif issue.status == "revoked":
+            if action == "remove":
+                db.session.delete(issue)
+                db.session.commit()
+                session["deleteMsg"] = "Removed!!!"
+            elif action == "reissue":
+                issueDate = db.func.current_timestamp()
+                returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days')
+                issue.issue_date = issueDate
+                issue.return_date= returnDate
+                issue.status = "issued"
+                db.session.commit()
+                session["issueMsg"] = "Successfully Re-Issued*"
+            else:
+                session["deleteMsg"] = "Invalid Action for Revoked!!!"
+        elif issue.status == "returned":
+            if action == "reissue":
+                issueDate = db.func.current_timestamp()
+                returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days')
+                issue.issue_date = issueDate
+                issue.return_date= returnDate
+                issue.status = "issued"
+                print("reissued returned book")
+                db.session.commit()
+                session["issueMsg"] = "Successfully Re-Issued*"
+            elif action == "remove":
+                db.session.delete(issue)
+                db.session.commit()
+                session["deleteMsg"] = "Removed!!!"
+            else:
+                session["deleteMsg"] = "Invalid Action for Returned!!!"
+        elif issue.status == "rejected":
+            if action == "issue":
+                issueDate = db.func.current_timestamp()
+                returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days')
+                issue.issue_date = issueDate
+                issue.return_date= returnDate
+                issue.status = "issued"
+                print("reissued returned book")
+                db.session.commit()
+                session["issueMsg"] = "Successfully Re-Issued*"
+            elif action == "remove":
+                db.session.delete(issue)
+                db.session.commit()
+                session["deleteMsg"] = "Removed!!!"
+            else:
+                session["deleteMsg"] = "Invalid Action for Returned!!!"
+    return redirect(url_for('requestsHandler'))
+    
+
 
 if __name__ == "__main__":
     app.run(debug = True)

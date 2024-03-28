@@ -7,6 +7,12 @@
 {% endblock %}
 
 {% block rightContent %}
+    <div class="book-container">
+        {% if deleteMsg %}
+        <div class="error-text status-text">{{deleteMsg}}</div>    
+        {% elif issueMsg %}
+        <div class="success-text status-text">{{issueMsg}}</div>    
+        {% endif %}
         <div class="issue-handler-page">
         {% for issueRequest in issueRequests %}
             {% if issueRequest.status == "requested" %}
@@ -23,10 +29,16 @@
                     <div class="issue-card-content" style="width: 27%;">{{users[issueRequest.user_id].firstname + " " + users[issueRequest.user_id].lastname}}</div>
                     <div class="issue-card-content">{{books[issueRequest.book_id].name}}</div>
                     <div class="issue-card-content">{{issueRequest.status}}</div>
-                </div>
-                <div class="button-container">
-                    <a class="button tick-button">Issue</a>
-                    <a class="button cross-button">Reject</a>
+                </div>    
+                <div class="footer">
+                    <div class="date-container">
+                        <span class="dates"><strong>Issue Date:</strong> {{ issueRequest.issue_date }}</span>
+                        <span class="dates"><strong>Return Date:</strong> {{ issueRequest.return_date }}</span>
+                    </div> 
+                    <div class="button-container">
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='issue')}}" class="button tick-button">Issue</a>
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='reject')}}" class="button cross-button">Reject</a>
+                    </div>
                 </div>
             </div>
             {% elif issueRequest.status == "issued" %}
@@ -44,9 +56,15 @@
                     <div class="issue-card-content">{{books[issueRequest.book_id].name}}</div>
                     <div class="issue-card-content">{{issueRequest.status}}</div>
                 </div>
-                <div class="button-container">
-                    <a class="button tick-button">Re-Issue</a>
-                    <a class="button cross-button">Revoke</a>
+                <div class="footer">
+                    <div class="date-container">
+                        <span class="dates"><strong>Issue Date:</strong> {{ issueRequest.issue_date }}</span>
+                        <span class="dates"><strong>Return Date:</strong> {{ issueRequest.return_date }}</span>
+                    </div> 
+                    <div class="button-container">
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='reissue')}}" class="button tick-button">Re-Issue</a>
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='revoke')}}" class="button cross-button">Revoke</a>
+                    </div>
                 </div>
             </div>
             {% elif issueRequest.status == "revoked" %}
@@ -64,12 +82,18 @@
                     <div class="issue-card-content">{{books[issueRequest.book_id].name}}</div>
                     <div class="issue-card-content">{{issueRequest.status}}</div>
                 </div>
-                <div class="button-container">
-                    <a class="button tick-button">Issue</a>
-                    <a class="button cross-button">Revoke</a>
+                <div class="footer">
+                    <div class="date-container">
+                        <span class="dates"><strong>Issue Date:</strong> {{ issueRequest.issue_date }}</span>
+                        <span class="dates"><strong>Return Date:</strong> {{ issueRequest.return_date }}</span>
+                    </div> 
+                    <div class="button-container">
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='reissue')}}" class="button tick-button">Re-Issue</a>
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='remove')}}" class="button cross-button">Remove</a>
+                    </div>
                 </div>
             </div>
-            {% else %}
+            {% elif issueRequest.status == "returned" %}
             <div class="issue-card returned">
                 <div class="issue-card-row">
                     <div class="issue-card-header" style="width: 18%;">User ID</div>
@@ -84,12 +108,45 @@
                     <div class="issue-card-content">{{books[issueRequest.book_id].name}}</div>
                     <div class="issue-card-content">{{issueRequest.status}}</div>
                 </div>
-                <div class="button-container">
-                    <a class="button tick-button">Issue</a>
-                    <a class="button cross-button">Revoke</a>
+                <div class="footer">
+                    <div class="date-container">
+                        <span class="dates"><strong>Issue Date:</strong> {{ issueRequest.issue_date }}</span>
+                        <span class="dates"><strong>Return Date:</strong> {{ issueRequest.return_date }}</span>
+                    </div> 
+                    <div class="button-container">
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='reissue')}}" class="button tick-button">Re-Issue</a>
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='remove')}}" class="button cross-button">Remove</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="issue-card rejected">
+                <div class="issue-card-row">
+                    <div class="issue-card-header" style="width: 18%;">User ID</div>
+                    <div class="issue-card-header" style="width: 27%;">User</div>
+                    <div class="issue-card-header">Book</div>
+                    <div class="issue-card-header">Status</div>
+                </div>
+                <hr style="border: 1px solid white;">
+                <div class="issue-card-row">
+                    <div class="issue-card-content" style="width: 18%;">{{users[issueRequest.user_id].id}}</div>
+                    <div class="issue-card-content" style="width: 27%;">{{users[issueRequest.user_id].firstname + " " + users[issueRequest.user_id].lastname}}</div>
+                    <div class="issue-card-content">{{books[issueRequest.book_id].name}}</div>
+                    <div class="issue-card-content">{{issueRequest.status}}</div>
+                </div>
+                <div class="footer">
+                    <div class="date-container">
+                        <span class="dates"><strong>Issue Date:</strong> {{ issueRequest.issue_date }}</span>
+                        <span class="dates"><strong>Return Date:</strong> {{ issueRequest.return_date }}</span>
+                    </div>
+                    <div class="button-container">
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='issue')}}" class="button tick-button">Issue</a>
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='remove')}}" class="button cross-button">Remove</a>
+                    </div>
                 </div>
             </div>
             {% endif %}
         {% endfor %}
         </div>
+    </div>
 {% endblock %}
