@@ -329,9 +329,9 @@ def issueBook(bookID):
     if userType == "librarian":
         if not issue:
             session['issueMsg'] = "Issued:-> " + book.name
-            requestDate = db.func.current_timestamp()
-            issueDate = db.func.current_timestamp()
-            returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days')
+            requestDate = db.func.datetime(db.func.current_timestamp(),'+5 Hours','+30 Minutes')
+            issueDate = db.func.datetime(db.func.current_timestamp(),'+5 Hours','+30 Minutes')
+            returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days','+5 Hours','+30 Minutes')
             issue = Issue(book_id=bookID,user_id=userID,request_date=requestDate,issue_date=issueDate,return_date=returnDate,issue_period=issuePeriod,status="issued")
             print("Issued")
             print(issue.book_id,issue.user_id,issue.request_date,issue.issue_date,issue.return_date,issue.issue_period,issue.status)
@@ -345,7 +345,7 @@ def issueBook(bookID):
     elif userType == "student":
         if not issue:
             session['issueMsg'] = "Requested:-> " + book.name
-            requestDate = db.func.current_timestamp()
+            requestDate = db.func.datetime(db.func.current_timestamp(),'+5 Hours','+30 Minutes')
             #issueDate = db.func.current_timestamp()
             #returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days')
             issue = Issue(book_id=bookID,user_id=userID,request_date=requestDate,issue_period=issuePeriod,status="requested")
@@ -439,8 +439,8 @@ def requestProcessor(issueID,action):
     else:
         if issue.status == "requested":
             if action == "issue":
-                issueDate = db.func.current_timestamp()
-                returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days')
+                issueDate = db.func.datetime(db.func.current_timestamp(),'+5 Hours','+30 Minutes')
+                returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days','+5 Hours','+30 Minutes')
                 issue.issue_date = issueDate
                 issue.return_date= returnDate
                 issue.status = "issued"
@@ -458,8 +458,8 @@ def requestProcessor(issueID,action):
                 db.session.commit()
                 session["issueMsg"] = "Successfully Revoked Access*"
             elif action == "reissue":
-                issueDate = db.func.current_timestamp()
-                returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days')
+                issueDate = db.func.datetime(db.func.current_timestamp(),'+5 Hours','+30 Minutes')
+                returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days','+5 Hours','+30 Minutes')
                 issue.issue_date = issueDate
                 issue.return_date= returnDate
                 db.session.commit()
@@ -472,8 +472,8 @@ def requestProcessor(issueID,action):
                 db.session.commit()
                 session["deleteMsg"] = "Removed!!!"
             elif action == "reissue":
-                issueDate = db.func.current_timestamp()
-                returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days')
+                issueDate = db.func.datetime(db.func.current_timestamp(),'+5 Hours','+30 Minutes')
+                returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days','+5 Hours','+30 Minutes')
                 issue.issue_date = issueDate
                 issue.return_date= returnDate
                 issue.status = "issued"
@@ -483,8 +483,8 @@ def requestProcessor(issueID,action):
                 session["deleteMsg"] = "Invalid Action for Revoked!!!"
         elif issue.status == "returned":
             if action == "reissue":
-                issueDate = db.func.current_timestamp()
-                returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days')
+                issueDate = db.func.datetime(db.func.current_timestamp(),'+5 Hours','+30 Minutes')
+                returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days','+5 Hours','+30 Minutes')
                 issue.issue_date = issueDate
                 issue.return_date= returnDate
                 issue.status = "issued"
@@ -499,8 +499,8 @@ def requestProcessor(issueID,action):
                 session["deleteMsg"] = "Invalid Action for Returned!!!"
         elif issue.status == "rejected":
             if action == "issue":
-                issueDate = db.func.current_timestamp()
-                returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days')
+                issueDate = db.func.datetime(db.func.current_timestamp(),'+5 Hours','+30 Minutes')
+                returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days','+5 Hours','+30 Minutes')
                 issue.issue_date = issueDate
                 issue.return_date= returnDate
                 issue.status = "issued"
