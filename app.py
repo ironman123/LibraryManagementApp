@@ -242,13 +242,14 @@ def librarianRegister():
 @app.route('/book/<string:bookID>')
 def book(bookID):
     userType = session["userType"]
+    user = User.query.filter_by(id = session["userID"]).first()
     if request.method == "GET":
         book = Book.query.filter_by(id=bookID).first()
         authors = [author.name for author in Author.query.join(Book_Author).filter(Book_Author.book_id==book.id).all()]
         genres = [genre.name for genre in Genre.query.join(Book_Genre).filter(Book_Genre.book_id==book.id).all()]
         print(authors)
         print(genres)
-        return render_template("book-page.html",userType=userType,authors=authors,genres=genres,book=book)
+        return render_template("book-page.html",user=user,userType=userType,authors=authors,genres=genres,book=book)
 
 @app.route('/signout')
 @login_required
