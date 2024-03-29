@@ -56,10 +56,10 @@
           <a href="{{url_for('issueBook',bookID=book.id)}}" class="btn btn-warning book-card-button" >Issue</a>
           <a href="{{url_for('librarianDashboard',bookID=book.id)}}" class="btn btn-info book-card-button" >Read</a>
           <a href="{{url_for('deleteBook',bookID=book.id)}}" class="btn btn-danger book-card-button" >Delete</a>
-          {% if favourite %}
-          <a href="{{url_for('librarianDashboard',bookID=book.id)}}" class="btn btn-danger book-card-button fav-btn-active">❤︎</a>        
+          {% if book.id in favBooks %}
+          <a href="{{url_for('favoriteMarker',bookID=book.id)}}" class="btn btn-danger book-card-button fav-btn-active">❤︎</a>        
           {% else %}
-          <a href="{{url_for('librarianDashboard',bookID=book.id)}}" class="btn btn-outline-danger book-card-button fav-btn-disabled">❤︎</a>
+          <a href="{{url_for('favoriteMarker',bookID=book.id)}}" class="btn btn-outline-danger book-card-button fav-btn-disabled">❤︎</a>
           {% endif %}
         </div>
     </div>

@@ -28,7 +28,8 @@ def studentDashboard():
         books = Book.query.all()
         issueMsg = session.pop('issueMsg',None)
         deleteMsg = session.pop('deleteMsg',None)
-        return render_template('student-dashboard.html', books=books,user = user,issueMsg=issueMsg,deleteMsg=deleteMsg)
+        favBooks = [fav.book_id for fav in Favorite.query.filter_by(user_id=user.id).all()]
+        return render_template('student-dashboard.html', books=books,user = user,issueMsg=issueMsg,deleteMsg=deleteMsg,favBooks=favBooks)
 
 @app.route("/user/librarian",methods = ["GET","POST"])
 @login_required
@@ -37,9 +38,11 @@ def librarianDashboard():
     if request.method == "GET":
         user = User.query.filter_by(id = session["userID"]).first()
         books = Book.query.all()
+        favBooks = [fav.book_id for fav in Favorite.query.filter_by(user_id=user.id).all()]
+        
         issueMsg = session.pop('issueMsg', None)
         deleteMsg = session.pop('deleteMsg', None)
-        return render_template('librarian-dashboard.html',books=books, user = user,issueMsg=issueMsg,deleteMsg=deleteMsg,favourite=True)
+        return render_template('librarian-dashboard.html',books=books, user = user,issueMsg=issueMsg,deleteMsg=deleteMsg,favBooks=favBooks)
     
 @app.route("/add-book", methods=["GET","POST"])
 @login_required
@@ -418,6 +421,7 @@ def genrePage(genreName):
         issueMsg = session.pop('issueMsg', None)
         deleteMsg = session.pop('deleteMsg', None)
         
+        return redirect(url_for('librarianDashboard' if session["userType"] == "librarian" else 'studentDashboard'))
         if session['userType'] == "librarian":
             return render_template('librarian-dashboard.html',books=books, user = user,issueMsg=issueMsg,deleteMsg=deleteMsg)
         else:
@@ -440,10 +444,34 @@ def authorPage(authorName):
         issueMsg = session.pop('issueMsg', None)
         deleteMsg = session.pop('deleteMsg', None)
         
+
+        return redirect(url_for('librarianDashboard' if session["userType"] == "librarian" else 'studentDashboard'))
         if session['userType'] == "librarian":
             return render_template('librarian-dashboard.html',books=books, user = user,issueMsg=issueMsg,deleteMsg=deleteMsg)
         else:
             return render_template('student-dashboard.html',books=books, user = user,issueMsg=issueMsg,deleteMsg=deleteMsg)
+
+@app.route('/favorite/<string:bookID>')
+@login_required
+def favoriteMarker(bookID):
+    user = User.query.filter_by(id=session["userID"]).first()
+    userType = session["userType"]
+    book = Book.query.filter_by(id=bookID).first()
+    if not book:
+        session["deleteMsg"] = "Invalid Book ID!"
+    else:
+        favoriteStatus = Favorite.query.filter_by(book_id=bookID,user_id=user.id).first()
+        if favoriteStatus:
+            session["deleteMsg"] = "Unfavorite: " + book.name
+            db.session.delete(favoriteStatus)
+            db.session.commit()
+        else:
+            session["issueMsg"] = "Favorite: " + book.name
+            favoriteStatus = Favorite(book_id = bookID, user_id = user.id)
+            db.session.add(favoriteStatus)
+            db.session.commit()
+    
+    return redirect(url_for('librarianDashboard' if userType == "librarian" else 'studentDashboard'))
 
 @app.route('/request-processor/<string:issueID>/<string:action>')
 @login_required

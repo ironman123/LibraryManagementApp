@@ -56,6 +56,11 @@
           <div class="card-text card-body">{{book.description}}</div>
           <a href="{{url_for('issueBook',bookID=book.id)}}" class="btn btn-warning" style="margin-top: 1vh; color: white;">Issue</a>
           <a href="{{url_for('studentDashboard',bookID=book.id)}}" class="btn btn-info" style="margin-top: 1vh;color: white;">Read</a>
+          {% if book.id in favBooks %}
+          <a href="{{url_for('favoriteMarker',bookID=book.id)}}" class="btn btn-danger book-card-button fav-btn-active">❤︎</a>        
+          {% else %}
+          <a href="{{url_for('favoriteMarker',bookID=book.id)}}" class="btn btn-outline-danger book-card-button fav-btn-disabled">❤︎</a>
+          {% endif %}
         </div>
     </div>
     </a>
