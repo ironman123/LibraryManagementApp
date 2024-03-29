@@ -1,4 +1,8 @@
+{% if userType == "librarian" %}
 {% extends "librarian-dashboard.html" %}
+{% else %}
+{% extends "student-dashboard.html" %}
+{% endif %}
 
 {% block dashboardHead %}
     <title>Issue Requests</title>
@@ -35,10 +39,17 @@
                         <span class="dates"><strong>Issue Date:</strong> {{ issueRequest.issue_date }}</span>
                         <span class="dates"><strong>Return Date:</strong> {{ issueRequest.return_date }}</span>
                     </div> 
+                    {%if userType == "librarian" %}
                     <div class="button-container">
                         <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='issue')}}" class="button tick-button">Issue</a>
                         <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='reject')}}" class="button cross-button">Reject</a>
                     </div>
+                    <!-- if userType == "student" -->
+                    {% else %}
+                    <div class="button-container">
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='remove')}}" class="button cross-button">Remove</a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             {% elif issueRequest.status == "issued" %}
@@ -60,11 +71,13 @@
                     <div class="date-container">
                         <span class="dates"><strong>Issue Date:</strong> {{ issueRequest.issue_date }}</span>
                         <span class="dates"><strong>Return Date:</strong> {{ issueRequest.return_date }}</span>
-                    </div> 
+                    </div>
+                    {% if userType == "librarian" %}
                     <div class="button-container">
                         <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='reissue')}}" class="button tick-button">Re-Issue</a>
                         <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='revoke')}}" class="button cross-button">Revoke</a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
             {% elif issueRequest.status == "revoked" %}
@@ -87,10 +100,12 @@
                         <span class="dates"><strong>Issue Date:</strong> {{ issueRequest.issue_date }}</span>
                         <span class="dates"><strong>Return Date:</strong> {{ issueRequest.return_date }}</span>
                     </div> 
+                    {% if userType == "librarian" %}
                     <div class="button-container">
                         <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='reissue')}}" class="button tick-button">Re-Issue</a>
                         <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='remove')}}" class="button cross-button">Remove</a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
             {% elif issueRequest.status == "returned" %}
@@ -112,11 +127,13 @@
                     <div class="date-container">
                         <span class="dates"><strong>Issue Date:</strong> {{ issueRequest.issue_date }}</span>
                         <span class="dates"><strong>Return Date:</strong> {{ issueRequest.return_date }}</span>
-                    </div> 
+                    </div>
+                    {% if userType == "librarian" %}
                     <div class="button-container">
                         <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='reissue')}}" class="button tick-button">Re-Issue</a>
                         <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='remove')}}" class="button cross-button">Remove</a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
             {% else %}
@@ -139,10 +156,12 @@
                         <span class="dates"><strong>Issue Date:</strong> {{ issueRequest.issue_date }}</span>
                         <span class="dates"><strong>Return Date:</strong> {{ issueRequest.return_date }}</span>
                     </div>
+                    {% if userType == "librarian" %}
                     <div class="button-container">
                         <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='issue')}}" class="button tick-button">Issue</a>
                         <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='remove')}}" class="button cross-button">Remove</a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
             {% endif %}
