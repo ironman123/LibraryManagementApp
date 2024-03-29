@@ -21,9 +21,6 @@ with app.app_context():
 @is_user("student")
 def studentDashboard():
     if request.method == "GET":
-        print("---------------------------------")
-        print("in Student Dashboard")
-        print("---------------------------------")
         user = User.query.filter_by(id = session["userID"]).first()
         books = Book.query.all()
         issueMsg = session.pop('issueMsg',None)
@@ -72,7 +69,17 @@ def addBook():
         
         return BookAdder(app,title,authors,genres,desc,file)
 
+@app.route("/favorites")
+@login_required
+def favoritePage():
+    user = User.query.filter_by(id = session["userID"]).first()
+    books = Book.query.join(Favorite,Favorite.book_id == Book.id).filter(Favorite.user_id == user.id).all()
+    favBooks = [book.id for book in books]
+    issueMsg = session.pop('issueMsg',None)
+    deleteMsg = session.pop('deleteMsg',None)
     
+    return render_template('student-dashboard.html' if session["userType"] == "student" else 'librarian-dashboard.html', books=books,user = user,issueMsg=issueMsg,deleteMsg=deleteMsg,favBooks=favBooks)
+
 @app.route("/genre-editor", methods=["GET","POST"])
 @login_required
 #@is_user("librarian")
@@ -471,6 +478,7 @@ def favoriteMarker(bookID):
             db.session.add(favoriteStatus)
             db.session.commit()
     
+    return redirect(request.referrer)
     return redirect(url_for('librarianDashboard' if userType == "librarian" else 'studentDashboard'))
 
 @app.route('/request-processor/<string:issueID>/<string:action>')

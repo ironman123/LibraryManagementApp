@@ -8,7 +8,7 @@
 {% block leftContent %}
     <a href="{{url_for('librarianDashboard')}}" class = "panel-item" id="homeLabel">Home</a>
     <hr class = "divider">
-    <a href="/" class = "panel-item" id="favouriteLabel">Favourites</a>
+    <a href="{{url_for('favoritePage')}}" class = "panel-item" id="favouriteLabel">Favourites</a>
     <hr class = "divider">
     <a href="/" class = "panel-item" id="issuedLabel">Issued</a>
     <hr class = "divider">
