@@ -4,6 +4,16 @@ from datetime import datetime,timedelta
 db = SQLAlchemy()
 
 #Relations
+class Review(db.Model):
+    __tablename__ = "review"
+    id = db.Column(db.Integer(), primary_key=True)
+    content = db.Column(db.Text(), nullable=False)
+    book_id = db.Column(db.Integer(), db.ForeignKey('book.id'), nullable=False)
+    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
+
+    # To delete Reviews when user or book is removed
+    book = db.relationship('Book', backref=db.backref('reviews', cascade='all, delete-orphan'))
+    user = db.relationship('User', backref=db.backref('reviews', cascade='all, delete-orphan'))
 class Favorite(db.Model):
     __tablename__ = "favorite"
     id = db.Column(db.Integer(),primary_key= True)

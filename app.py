@@ -1,6 +1,9 @@
 import os
-from flask import Flask,render_template,redirect,request,url_for,session,send_from_directory
-from utility import IsEmailValid,RegisterUser,key,login_required,is_user,FixText,BookAdder
+from flask import Flask,render_template,redirect,request,url_for,session,send_from_directory,send_file
+import fitz
+import base64
+
+from utility import IsEmailValid,RegisterUser,key,login_required,is_user,FixText,BookAdder,return_books
 from models import *
 from werkzeug.security import check_password_hash
 
@@ -241,6 +244,7 @@ def authorEdit():
 
 @app.route("/", methods = ["GET", "POST"])
 def index():
+    return_books()
     if request.method == "GET":
         return render_template("index.html")
     elif request.method == "POST":
@@ -323,9 +327,39 @@ def book(bookID):
         book = Book.query.filter_by(id=bookID).first()
         authors = [author.name for author in Author.query.join(Book_Author).filter(Book_Author.book_id==book.id).all()]
         genres = [genre.name for genre in Genre.query.join(Book_Genre).filter(Book_Genre.book_id==book.id).all()]
-        print(authors)
-        print(genres)
-        return render_template("book-page.html",user=user,userType=userType,authors=authors,genres=genres,book=book)
+        reviews = Review.query.filter_by(book_id =bookID).all()
+        bookReviewers = {}
+        for review in reviews:
+            user = User.query.filter_by(id=review.user_id).first()
+            bookReviewers[review.id] = user.firstname + " " + user.lastname
+        #print(authors)
+        #print(genres)
+        
+        issueMsg = session.pop('issueMsg',None)
+        deleteMsg = session.pop('deleteMsg',None)
+
+        return render_template("book-page.html",user=user,userType=userType,authors=authors,genres=genres,book=book,reviews=reviews,bookReviewers=bookReviewers,issueMsg=issueMsg,deleteMsg=deleteMsg)
+    
+@app.route('/review/<int:bookID>', methods=['POST'])
+@login_required
+def reviewSubmitter(bookID):
+    if request.method == 'POST':
+        reviewContent = request.form['review']
+        book = Book.query.get(bookID)
+        print("ReviewContent: ")
+        print(reviewContent)
+        if reviewContent == "":
+            session['deleteMsg'] = "Empty Field!!!"
+            return redirect(request.referrer)
+        if book:
+            review = Review(content=reviewContent, book_id=bookID,user_id=session['userID'])
+            db.session.add(review)
+            db.session.commit()
+            session['issueMsg'] = "Review Submitted Successfully!"
+        else:
+            session['deleteMsg'] = "Reviewing an Invalid Book!!!"
+            return redirect(url_for('librarianDashboard' if session['userType'] == "librarian" else 'studentDashboard'))
+    return redirect(request.referrer)
 
 @app.route('/signout')
 @login_required
@@ -362,6 +396,38 @@ def removeAuthor(author):
         db.session.delete(book_author)
     db.session.commit()
     return redirect(url_for('authorEdit'))
+
+# @app.route("/read")
+# @login_required
+# def read_display():
+#     user = User.query.filter_by(id = session["userID"]).first()
+#     return render_template('read.html',user=user)
+
+# @app.route("/read/<int:book_id>")
+# @login_required
+# def read_pdf(book_id):
+#     book="appBooks\Suzume.pdf"
+#     return send_file(book,as_attachment=False)
+
+
+
+@app.route('/return-book/<string:bookID>')
+@login_required
+def returnBook(bookID):
+    book = Book.query.filter_by(id=bookID).first()
+    if not book:
+        session['deleteMsg'] = "Invalid Book ID: "+ bookID
+        return redirect(url_for('librarianDashboard' if session['userType'] == "librarian" else 'studentDashboard'))
+    bookID = book.id
+    issue = Issue.query.filter(Issue.book_id == bookID, Issue.user_id==session['userID']).first()
+    if issue.status == "issued":
+        issue.status = "returned"
+        db.session.commit()
+        session['issueMsg'] = "Returned Book: "+ book.name
+        return redirect(url_for('librarianDashboard' if session['userType'] == "librarian" else 'studentDashboard'))
+    else:
+        session['deleteMsg'] = "Un-Issued Book: "+ book.name
+        return redirect(url_for('librarianDashboard' if session['userType'] == "librarian" else 'studentDashboard'))
 
 @app.route('/delete-book/<string:bookID>')
 @login_required
@@ -404,7 +470,7 @@ def issueBook(bookID):
     #if not(issues == []):
     #    issue = issues[-1]
     if userType == "librarian":
-        if not issue:
+        if not issue or issue.status == "returned":
             session['issueMsg'] = "Issued:-> " + book.name
             requestDate = db.func.datetime(db.func.current_timestamp(),'+5 Hours','+30 Minutes')
             issueDate = db.func.datetime(db.func.current_timestamp(),'+5 Hours','+30 Minutes')
@@ -414,13 +480,13 @@ def issueBook(bookID):
             print(issue.book_id,issue.user_id,issue.request_date,issue.issue_date,issue.return_date,issue.issue_period,issue.status)
             db.session.add(issue)
             db.session.commit()
-        else:
+        elif issue.status == "issued":
             session['deleteMsg'] = "Already Issued:-> " + book.name
         
         return redirect(url_for('librarianDashboard'))
 
     elif userType == "student":
-        if not issue:
+        if not issue or issue.status == "returned":
             session['issueMsg'] = "Requested:-> " + book.name
             requestDate = db.func.datetime(db.func.current_timestamp(),'+5 Hours','+30 Minutes')
             #issueDate = db.func.current_timestamp()
@@ -435,7 +501,7 @@ def issueBook(bookID):
             session['deleteMsg'] = "Access Revoked:-> " + book.name
         elif issue.status == "rejected":
             session['deleteMsg'] = "Issue Request Rejected:-> " + book.name
-        else:
+        elif issue.status == "issued":
             session['deleteMsg'] = "Already Issued:-> " + book.name
 
         return redirect(url_for('studentDashboard'))
@@ -608,7 +674,6 @@ def requestProcessor(issueID,action):
                     issue.issue_date = issueDate
                     issue.return_date= returnDate
                     issue.status = "issued"
-                    print("reissued returned book")
                     db.session.commit()
                     session["issueMsg"] = "Successfully Re-Issued*"
                 elif action == "remove":

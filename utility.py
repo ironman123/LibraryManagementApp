@@ -27,6 +27,17 @@ def is_user(expectedType):
         return wrapper
     return decorator
 
+def return_books():
+    userID = session.get("userID")
+    if userID:
+        issues = Issue.query.filter_by(user_id=userID).all()
+        current_time = datetime.now() + timedelta(hours=5, minutes=30)
+        for issue in issues:
+            if issue.return_date == None:
+                continue
+            if issue.return_date < current_time:
+                issue.status = "returned"
+        db.session.commit()
 
 def FixText(str):
     if str == "":

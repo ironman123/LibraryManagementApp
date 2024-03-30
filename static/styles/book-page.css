@@ -1,23 +1,101 @@
 .book-page.container{
-    height: 80.25vh;
+    height: 85.25vh;
     display: flex;
     flex-direction: column;
     padding: 3vh;
     margin:0.5vh;
+    overflow-y: auto;
 }
 .book-page::-webkit-scrollbar{
     display: none;
 }
-
-.card.author-col,.card.genre-col,.card.book-col
+.author-genre-col .card-body {
+    max-height: 100%;
+    overflow-y: auto;
+}
+.card.book-col
 {
     height: 80vh;
     margin-bottom: 1vh;
     overflow-y: auto;
+    gap:0.5vh;
 }
 
+.card.author-col::-webkit-scrollbar,.card.genre-col::-webkit-scrollbar
+{
+    display: none;
+}
 .book-col
 {
-    flex:2.7;
+    flex:1.5;
     margin:0;
+}
+
+.review-container
+{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 80.25vh;
+    gap: 1vh;
+}
+
+.review-form {
+    min-width: 100%;
+    margin-bottom: 1vh;
+}
+
+.all-reviews {
+    min-width: 100%;
+    height: 45vh;
+    overflow-y: auto;
+}
+
+
+.sticky-header {
+    padding: 1vh 1vh;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1; /* Ensure it appears above other content */
+}
+
+.header
+{
+    text-align: center;
+    padding-top: 1vh;
+    background-color: rgb(177, 233, 255);
+}
+
+.all-reviews.container {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    gap: 0.5vh;
+    padding: 0;
+    margin: 0;
+}
+
+.all-reviews.container .sticky-header {
+    margin: 0;
+    padding: 0.5vh 0;
+}
+
+.all-reviews.container .card {
+    margin-bottom: 0.5vh;
+}
+
+.all-reviews.container .card .card-header {
+    padding: 0.3rem;
+    background-color: rgb(177, 233, 255);
+}
+
+.all-reviews.container .card .card-body {
+    padding: 0.5rem;
+    height: auto;
+    font-size: 1vh;
+}
+
+.all-reviews.container .card .card-body p {
+    font-size:2.1vh;
 }
