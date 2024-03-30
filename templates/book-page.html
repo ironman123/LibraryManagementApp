@@ -1,4 +1,8 @@
-{% extends "dashboard.html" %}
+{% if userType == "librarian" %}
+{% extends "librarian-dashboard.html" %}
+{% else %}
+{% extends "student-dashboard.html" %}
+{% endif %}
 
 {% block dashboardHead %}
     {% if userType == "librarian" %}
@@ -143,7 +147,10 @@
                       {% for review in reviews %}
                       <div class="card">
                         <div class="card-header">
-                          {{bookReviewers[review.user_id]}}
+                          {{bookReviewers[review.id]}}
+                          {% if review.user_id == user.id %}
+                          <a href="{{url_for('deleteReview',reviewID = review.id)}}" class="btn btn-danger btn-sm">Del</a>
+                          {% endif %}
                         </div>
                         <div class="card-body">
                           <blockquote class="blockquote mb-0">

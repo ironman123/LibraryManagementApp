@@ -318,8 +318,9 @@ def librarianRegister():
 
         return RegisterUser(firstName=firstName,lastName=lastName,email=email,password=password,repassword=repassword,securityKey=securityKey,type = type,duplicateEmail=duplicate)
 
-@login_required
+
 @app.route('/book/<string:bookID>')
+@login_required
 def book(bookID):
     userType = session["userType"]
     user = User.query.filter_by(id = session["userID"]).first()
@@ -330,8 +331,8 @@ def book(bookID):
         reviews = Review.query.filter_by(book_id =bookID).all()
         bookReviewers = {}
         for review in reviews:
-            user = User.query.filter_by(id=review.user_id).first()
-            bookReviewers[review.id] = user.firstname + " " + user.lastname
+            tempUser = User.query.filter_by(id=review.user_id).first()
+            bookReviewers[review.id] = tempUser.firstname + " " + tempUser.lastname
         #print(authors)
         #print(genres)
         
@@ -359,7 +360,21 @@ def reviewSubmitter(bookID):
         else:
             session['deleteMsg'] = "Reviewing an Invalid Book!!!"
             return redirect(url_for('librarianDashboard' if session['userType'] == "librarian" else 'studentDashboard'))
-    return redirect(request.referrer)
+    return redirect(url_for('book',bookID=bookID))
+
+@app.route('/delete-review/<string:reviewID>')
+@login_required
+def deleteReview(reviewID):
+    review = Review.query.filter_by(id = reviewID).first()
+    bookID = review.book_id
+
+    if not review:
+        session['deleteMsg'] = "Invalid Review!!!"
+    else:
+        db.session.delete(review)
+        db.session.commit()
+        session['issueMsg'] = "Review Deleted Successfully!"
+    return redirect(url_for('book',bookID=bookID))
 
 @app.route('/signout')
 @login_required
