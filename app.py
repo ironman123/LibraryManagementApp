@@ -431,6 +431,10 @@ def issueBook(bookID):
             db.session.commit()
         elif issue.status == "requested":
             session['issueMsg'] = "Already Requested:-> " + book.name
+        elif issue.status == "revoked":
+            session['deleteMsg'] = "Access Revoked:-> " + book.name
+        elif issue.status == "rejected":
+            session['deleteMsg'] = "Issue Request Rejected:-> " + book.name
         else:
             session['deleteMsg'] = "Already Issued:-> " + book.name
 
