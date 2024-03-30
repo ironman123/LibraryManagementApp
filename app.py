@@ -87,6 +87,13 @@ def searchPage():
     userType = session["userType"]
     option = request.args.get('option')
     keyword = request.args.get('keyword')
+
+    options = ['book','author','genre','issue','all']
+
+    if option not in options:
+        session["deleteMsg"] = "Invalid option: " + option
+        #return request.referrer
+
     print(option)
     print(keyword)
 
