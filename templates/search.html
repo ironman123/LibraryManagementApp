@@ -63,9 +63,9 @@
             <div class="author-card shadow-lg p-3 mb-5 bg-white rounded">
                 <h5 class="card-title zoom-text">{{author.name}}</h5>
                 <div class="author-card-body">
-                    <a href="{{url_for('authorPage',authorName=author)}}" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                    <a href="{{url_for('authorPage',authorName=author.name)}}" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
                     {% if userType == "librarian" %}
-                    <a href="{{url_for('removeAuthor',author=author)}}" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    <a href="{{url_for('removeAuthor',author=author.name)}}" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
                     {% endif %}
                 </div>
             </div>
@@ -87,9 +87,9 @@
             <div class="genre-card shadow-lg p-3 mb-5 bg-white rounded">
                 <h5 class="card-title zoom-text">{{genre.name}}</h5>
                 <div class="genre-card-body">
-                    <a href="{{url_for('genrePage',genreName=genre)}}" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                    <a href="{{url_for('genrePage',genreName=genre.name)}}" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
                     {% if userType == "librarian" %}
-                    <a href="{{url_for('removeGenre',genre=genre)}}" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    <a href="{{url_for('removeGenre',genre=genre.name)}}" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
                     {% endif %}
                 </div>
             </div>
