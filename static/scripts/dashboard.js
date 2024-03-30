@@ -69,4 +69,8 @@ function inputGenre(checkbox)
     }
 }
 
-
+function search() {
+    var option = document.getElementById('search-option').value;
+    var keyword = document.getElementById('search-keyword').value;
+    window.location.href = "/search?option=" + option + "&keyword=" + keyword;
+}

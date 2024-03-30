@@ -1,0 +1,250 @@
+{% if userType == "librarian" %}
+{% extends "librarian-dashboard.html" %}
+{% else %}
+{% extends "student-dashboard.html" %}
+{% endif %}
+
+{% block dashboardHead %}
+    <title>Genre Editor</title>
+    <link href="../static/styles/styles.css" rel="stylesheet">
+    <link href="../static/styles/issue-handler.css" rel="stylesheet">
+    <link href="../static/styles/librarian-dashboard.css" rel="stylesheet">
+    <link href="../static/styles/genre-style.css" rel="stylesheet">
+    <link href="../static/styles/author-style.css" rel="stylesheet">
+    <link href="../static/styles/search-style.css" rel="stylesheet">
+    
+{% endblock %}
+
+{% block rightContent %}
+<div class="book-container">
+    {% if option == "book" or option == "all" %}
+    <div class="books-box box">
+        <div class="header">
+            <h4 class="" >Books</h4>
+            <hr class="divider">
+        </div>
+        <div class="content">
+            {% for book in books %}
+            <a href="{{url_for('book',bookID=book.id)}}" style="text-decoration: none; color: inherit;">
+                <div class="card book-card glow-bg" style="width: 18rem;">
+                    <img class="card-img-top" src="../static/cover-images/{{book.name}}.png" alt="{{book.name}} Cover image">
+                    <div class="card-body">
+                        <div class="card-title">{{book.name}}</div>
+                        <div class="card-text card-body">{{book.description}}</div>
+                        <a href="{{url_for('issueBook',bookID=book.id)}}" class="btn btn-warning book-card-button" >Issue</a>
+                        <a href="{{url_for('librarianDashboard',bookID=book.id)}}" class="btn btn-info book-card-button" >Read</a>
+                        <a href="{{url_for('deleteBook',bookID=book.id)}}" class="btn btn-danger book-card-button" >Delete</a>
+                        {% if book.id in favBooks %}
+                        <a href="{{url_for('favoriteMarker',bookID=book.id)}}" class="btn btn-danger book-card-button fav-btn-active">❤︎</a>        
+                        {% else %}
+                        <a href="{{url_for('favoriteMarker',bookID=book.id)}}" class="btn btn-outline-danger book-card-button fav-btn-disabled">❤︎</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+            {% endfor%}
+        </div>
+    </div>
+    {% endif %}
+    {% if option == "author" or option == "all" %}
+    <div class="authors-box box">
+        <div class="header">
+            <h4 class="" >Authors</h4>
+            <hr class="divider">
+        </div>
+        <div class="content">
+            {% for author in authors %}
+            <div class="author-card shadow-lg p-3 mb-5 bg-white rounded">
+                <h5 class="card-title zoom-text">{{author.name}}</h5>
+                <div class="author-card-body">
+                    <a href="{{url_for('authorPage',authorName=author)}}" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                    {% if userType == "librarian" %}
+                    <a href="{{url_for('removeAuthor',author=author)}}" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% if option == "genre" or option == "all" %}
+    <div class="genres-box box">
+        <div class="header">
+            <h4 class="" >Genres</h4>
+            <hr class="divider">
+        </div>
+        <div class="content">
+            {% for genre in genres %}
+            <div class="genre-card shadow-lg p-3 mb-5 bg-white rounded">
+                <h5 class="card-title zoom-text">{{genre.name}}</h5>
+                <div class="genre-card-body">
+                    <a href="{{url_for('genrePage',genreName=genre)}}" class="card-link"><img class="button-icon" src="../static/images/search.png" alt="Search Icon"></a>
+                    {% if userType == "librarian" %}
+                    <a href="{{url_for('removeGenre',genre=genre)}}" class="card-link"><img class="button-icon" src="../static/images/delete.png" alt="Delete Icon"></a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    {% if option == "issue" or option == "all" %}
+    <div class="issues-box box">
+        <div class="header">
+            <h4 class="" >Issues</h4>
+            <hr class="divider">
+        </div>
+        <div class="content">
+            {% for issueRequest in issues %}
+            {% if issueRequest.status == "requested" %}
+            <div class="issue-card requested">
+                <div class="issue-card-row">
+                    <div class="issue-card-header" style="width: 18%;">User ID</div>
+                    <div class="issue-card-header" style="width: 27%;">User</div>
+                    <div class="issue-card-header">Book</div>
+                    <div class="issue-card-header">Status</div>
+                </div>
+                <hr style="border: 1px solid white;">
+                <div class="issue-card-row">
+                    <div class="issue-card-content" style="width: 18%;">{{allusers[issueRequest.user_id].id}}</div>
+                    <div class="issue-card-content" style="width: 27%;">{{allusers[issueRequest.user_id].firstname + " " + users[issueRequest.user_id].lastname}}</div>
+                    <div class="issue-card-content">{{allbooks[issueRequest.book_id].name}}</div>
+                    <div class="issue-card-content">{{issueRequest.status}}</div>
+                </div>    
+                <div class="footer">
+                    <div class="date-container">
+                        <span class="dates"><strong>Issue Date:</strong> {{ issueRequest.issue_date }}</span>
+                        <span class="dates"><strong>Return Date:</strong> {{ issueRequest.return_date }}</span>
+                    </div> 
+                    {%if userType == "librarian" %}
+                    <div class="button-container">
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='issue')}}" class="button tick-button">Issue</a>
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='reject')}}" class="button cross-button">Reject</a>
+                    </div>
+                    <!-- if userType == "student" -->
+                    {% else %}
+                    <div class="button-container">
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='remove')}}" class="button cross-button">Remove</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% elif issueRequest.status == "issued" %}
+            <div class="issue-card issued">
+                <div class="issue-card-row">
+                    <div class="issue-card-header" style="width: 18%;">User ID</div>
+                    <div class="issue-card-header" style="width: 27%;">User</div>
+                    <div class="issue-card-header">Book</div>
+                    <div class="issue-card-header">Status</div>
+                </div>
+                <hr style="border: 1px solid white;">
+                <div class="issue-card-row">
+                    <div class="issue-card-content" style="width: 18%;">{{allusers[issueRequest.user_id].id}}</div>
+                    <div class="issue-card-content" style="width: 27%;">{{allusers[issueRequest.user_id].firstname + " " + allusers[issueRequest.user_id].lastname}}</div>
+                    <div class="issue-card-content">{{allbooks[issueRequest.book_id].name}}</div>
+                    <div class="issue-card-content">{{issueRequest.status}}</div>
+                </div>
+                <div class="footer">
+                    <div class="date-container">
+                        <span class="dates"><strong>Issue Date:</strong> {{ issueRequest.issue_date }}</span>
+                        <span class="dates"><strong>Return Date:</strong> {{ issueRequest.return_date }}</span>
+                    </div>
+                    {% if userType == "librarian" %}
+                    <div class="button-container">
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='reissue')}}" class="button tick-button">Re-Issue</a>
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='revoke')}}" class="button cross-button">Revoke</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% elif issueRequest.status == "revoked" %}
+            <div class="issue-card revoked">
+                <div class="issue-card-row">
+                    <div class="issue-card-header" style="width: 18%;">User ID</div>
+                    <div class="issue-card-header" style="width: 27%;">User</div>
+                    <div class="issue-card-header">Book</div>
+                    <div class="issue-card-header">Status</div>
+                </div>
+                <hr style="border: 1px solid white;">
+                <div class="issue-card-row">
+                    <div class="issue-card-content" style="width: 18%;">{{allusers[issueRequest.user_id].id}}</div>
+                    <div class="issue-card-content" style="width: 27%;">{{allusers[issueRequest.user_id].firstname + " " + allusers[issueRequest.user_id].lastname}}</div>
+                    <div class="issue-card-content">{{allbooks[issueRequest.book_id].name}}</div>
+                    <div class="issue-card-content">{{issueRequest.status}}</div>
+                </div>
+                <div class="footer">
+                    <div class="date-container">
+                        <span class="dates"><strong>Issue Date:</strong> {{ issueRequest.issue_date }}</span>
+                        <span class="dates"><strong>Return Date:</strong> {{ issueRequest.return_date }}</span>
+                    </div> 
+                    {% if userType == "librarian" %}
+                    <div class="button-container">
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='reissue')}}" class="button tick-button">Re-Issue</a>
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='remove')}}" class="button cross-button">Remove</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% elif issueRequest.status == "returned" %}
+            <div class="issue-card returned">
+                <div class="issue-card-row">
+                    <div class="issue-card-header" style="width: 18%;">User ID</div>
+                    <div class="issue-card-header" style="width: 27%;">User</div>
+                    <div class="issue-card-header">Book</div>
+                    <div class="issue-card-header">Status</div>
+                </div>
+                <hr style="border: 1px solid white;">
+                <div class="issue-card-row">
+                    <div class="issue-card-content" style="width: 18%;">{{allusers[issueRequest.user_id].id}}</div>
+                    <div class="issue-card-content" style="width: 27%;">{{allusers[issueRequest.user_id].firstname + " " + allusers[issueRequest.user_id].lastname}}</div>
+                    <div class="issue-card-content">{{allbooks[issueRequest.book_id].name}}</div>
+                    <div class="issue-card-content">{{issueRequest.status}}</div>
+                </div>
+                <div class="footer">
+                    <div class="date-container">
+                        <span class="dates"><strong>Issue Date:</strong> {{ issueRequest.issue_date }}</span>
+                        <span class="dates"><strong>Return Date:</strong> {{ issueRequest.return_date }}</span>
+                    </div>
+                    {% if userType == "librarian" %}
+                    <div class="button-container">
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='reissue')}}" class="button tick-button">Re-Issue</a>
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='remove')}}" class="button cross-button">Remove</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% else %}
+            <div class="issue-card rejected">
+                <div class="issue-card-row">
+                    <div class="issue-card-header" style="width: 18%;">User ID</div>
+                    <div class="issue-card-header" style="width: 27%;">User</div>
+                    <div class="issue-card-header">Book</div>
+                    <div class="issue-card-header">Status</div>
+                </div>
+                <hr style="border: 1px solid white;">
+                <div class="issue-card-row">
+                    <div class="issue-card-content" style="width: 18%;">{{allusers[issueRequest.user_id].id}}</div>
+                    <div class="issue-card-content" style="width: 27%;">{{allusers[issueRequest.user_id].firstname + " " + allusers[issueRequest.user_id].lastname}}</div>
+                    <div class="issue-card-content">{{allbooks[issueRequest.book_id].name}}</div>
+                    <div class="issue-card-content">{{issueRequest.status}}</div>
+                </div>
+                <div class="footer">
+                    <div class="date-container">
+                        <span class="dates"><strong>Issue Date:</strong> {{ issueRequest.issue_date }}</span>
+                        <span class="dates"><strong>Return Date:</strong> {{ issueRequest.return_date }}</span>
+                    </div>
+                    {% if userType == "librarian" %}
+                    <div class="button-container">
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='issue')}}" class="button tick-button">Issue</a>
+                        <a href="{{url_for('requestProcessor',issueID=issueRequest.id,action='remove')}}" class="button cross-button">Remove</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>    
+{% endblock %}

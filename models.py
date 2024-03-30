@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import desc,func
+from sqlalchemy import desc,func,or_
 from datetime import datetime,timedelta
 db = SQLAlchemy()
 

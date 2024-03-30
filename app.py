@@ -80,12 +80,57 @@ def favoritePage():
     
     return render_template('student-dashboard.html' if session["userType"] == "student" else 'librarian-dashboard.html', books=books,user = user,issueMsg=issueMsg,deleteMsg=deleteMsg,favBooks=favBooks)
 
+@app.route("/search")
+@login_required
+def searchPage():
+    user = User.query.filter_by(id=session["userID"]).first()
+    userType = session["userType"]
+    option = request.args.get('option')
+    keyword = request.args.get('keyword')
+    print(option)
+    print(keyword)
+
+    if option == "all" or option == "book":
+        books = Book.query.filter(Book.name.like('%{}%'.format(keyword)) | (Book.id == keyword)).all()
+    else:
+        books = []
+
+    if option == "all" or option == "author":
+        authors = Author.query.filter(Author.name.like('%{}%'.format(keyword)) | (Author.id == keyword)).all()
+    else:
+        authors = []
+
+    if option == "all" or option == "genre":
+        genres = Genre.query.filter(Genre.name.like('%{}%'.format(keyword)) | (Genre.id == keyword)).all()
+    else:
+        genres = []
+
+    if option == "all" or option == "issue":
+        issues = db.session.query(Issue).join(User).join(Book).filter(
+            or_(User.firstname.like('%{}%'.format(keyword)), User.lastname.like('%{}%'.format(keyword)),
+                Book.name.like('%{}%'.format(keyword)), Issue.id == keyword)
+        ).all()
+    else:
+        issues = []
+
+    allUsers = User.query.all()
+    allBooks = Book.query.all()
+    allUsersDic = {user.id: user for user in allUsers}
+    allBooksDic = {book.id: book for book in allBooks}
+
+    favbooksQuery = Book.query.join(Favorite,Favorite.book_id == Book.id).filter(Favorite.user_id == user.id).all()
+    favBooks = [book.id for book in favbooksQuery]
+
+    return render_template('search.html', user=user, userType=userType, option=option, keyword=keyword, books=books, genres=genres, authors=authors, issues=issues, allusers=allUsersDic, allbooks=allBooksDic,favBooks=favBooks)
+
+
 @app.route("/issued")
 @login_required
 def issuedPage():
     user = User.query.filter_by(id = session["userID"]).first()
     books = Book.query.join(Issue,Issue.book_id == Book.id).filter(Issue.user_id == user.id,Issue.status=="issued").all()
-    favBooks = [book.id for book in books]
+    favbooksQuery = Book.query.join(Favorite,Favorite.book_id == Book.id).filter(Favorite.user_id == user.id).all()
+    favBooks = [book.id for book in favbooksQuery]
     issueMsg = session.pop('issueMsg',None)
     deleteMsg = session.pop('deleteMsg',None)
     
@@ -436,10 +481,14 @@ def genrePage(genreName):
         genreID = fetched.id
         
         books = Book.query.join(Book_Genre).filter(Book_Genre.genre_id==genreID).all()
+        
+        favbooksQuery = Book.query.join(Favorite,Favorite.book_id == Book.id).filter(Favorite.user_id == user.id).all()
+        favBooks = [book.id for book in favbooksQuery]
+
         issueMsg = session.pop('issueMsg', None)
         deleteMsg = session.pop('deleteMsg', None)
         
-        return render_template('librarian-dashboard.html' if session["userType"] == "librarian" else 'student-dashboard.html',books=books, user = user,issueMsg=issueMsg,deleteMsg=deleteMsg)
+        return render_template('librarian-dashboard.html' if session["userType"] == "librarian" else 'student-dashboard.html',books=books, user = user,issueMsg=issueMsg,deleteMsg=deleteMsg,favBooks=favBooks)
 
 @app.route('/author/<string:authorName>')
 @login_required
@@ -455,10 +504,14 @@ def authorPage(authorName):
         authorID = fetched.id
 
         books = Book.query.join(Book_Author).filter(Book_Author.author_id==authorID).all()
+        
+        favbooksQuery = Book.query.join(Favorite,Favorite.book_id == Book.id).filter(Favorite.user_id == user.id).all()
+        favBooks = [book.id for book in favbooksQuery]
+
         issueMsg = session.pop('issueMsg', None)
         deleteMsg = session.pop('deleteMsg', None)
         
-        return render_template('librarian-dashboard.html' if session["userType"] == "librarian" else 'student-dashboard.html',books=books, user = user,issueMsg=issueMsg,deleteMsg=deleteMsg)
+        return render_template('librarian-dashboard.html' if session["userType"] == "librarian" else 'student-dashboard.html',books=books, user = user,issueMsg=issueMsg,deleteMsg=deleteMsg,favBooks=favBooks)
 
 @app.route('/favorite/<string:bookID>')
 @login_required
