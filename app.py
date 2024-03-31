@@ -547,7 +547,7 @@ def requestsHandler():
         if userType == "librarian":
             issueRequests = Issue.query.all()
             allUsers = User.query.all()
-            
+            allBooks = Book.query.all()
             users = {}
             books = {}
 
