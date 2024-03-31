@@ -121,7 +121,7 @@
                 <hr style="border: 1px solid white;">
                 <div class="issue-card-row">
                     <div class="issue-card-content" style="width: 18%;">{{allusers[issueRequest.user_id].id}}</div>
-                    <div class="issue-card-content" style="width: 27%;">{{allusers[issueRequest.user_id].firstname + " " + users[issueRequest.user_id].lastname}}</div>
+                    <div class="issue-card-content" style="width: 27%;">{{allusers[issueRequest.user_id].firstname + " " + allusers[issueRequest.user_id].lastname}}</div>
                     <div class="issue-card-content">{{allbooks[issueRequest.book_id].name}}</div>
                     <div class="issue-card-content">{{issueRequest.status}}</div>
                 </div>    

@@ -1,7 +1,6 @@
 .header {
     position: sticky;
     top: 0;
-    background-color: rgb(218, 23, 23);
     z-index: 1000000;
     padding: 1vh 1vh;
     margin-top: 0vh;
@@ -34,10 +33,12 @@
 .issues-box .header {
     position: sticky;
     top: 0;
-    background-color: rgb(236, 235, 235);
+    background-color: rgb(185, 224, 255);
     z-index: 1;
     padding: 1vh 1vh;
     margin-top: 0.5vh;
+    border-radius: 5px;
+    border:1px solid rgb(0, 153, 255);
 }
 
 .box::-webkit-scrollbar {
