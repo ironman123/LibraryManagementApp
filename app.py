@@ -580,7 +580,7 @@ def genrePage(genreName):
         issueMsg = session.pop('issueMsg', None)
         deleteMsg = session.pop('deleteMsg', None)
         
-        return render_template('librarian-dashboard.html' if session["userType"] == "librarian" else 'student-dashboard.html',books=books, user = user,issueMsg=issueMsg,deleteMsg=deleteMsg,favBooks=favBooks)
+        return render_template('librarian-dashboard.html' if session["userType"] == "librarian" else 'student-dashboard.html',books=books, user = user,issueMsg=issueMsg,deleteMsg=deleteMsg,favBooks=favBooks,userType = session['userType'])
 
 @app.route('/author/<string:authorName>')
 @login_required
@@ -603,7 +603,7 @@ def authorPage(authorName):
         issueMsg = session.pop('issueMsg', None)
         deleteMsg = session.pop('deleteMsg', None)
         
-        return render_template('librarian-dashboard.html' if session["userType"] == "librarian" else 'student-dashboard.html',books=books, user = user,issueMsg=issueMsg,deleteMsg=deleteMsg,favBooks=favBooks)
+        return render_template('librarian-dashboard.html' if session["userType"] == "librarian" else 'student-dashboard.html',books=books, user = user,issueMsg=issueMsg,deleteMsg=deleteMsg,favBooks=favBooks,userType=session['userType'])
 
 @app.route('/favorite/<string:bookID>')
 @login_required

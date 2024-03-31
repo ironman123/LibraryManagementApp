@@ -1,4 +1,8 @@
+{% if userType == "librarian" %}
 {% extends "librarian-dashboard.html" %}
+{% else %}
+{% extends "student-dashboard.html" %}
+{% endif %}
 
 {% block dashboardHead %}
     <title>Author Editor</title>

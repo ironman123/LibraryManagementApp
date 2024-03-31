@@ -15,73 +15,6 @@
     <link href="../static/styles/book-page.css" rel="stylesheet">
 {% endblock %}
 
-{% block leftContent %}
-    {% if userType == "librarian" %}
-    <a href="{{url_for('librarianDashboard')}}" class = "panel-item" id="homeLabel">Home</a>
-    <hr class = "divider">
-    <a href="/" class = "panel-item" id="favouriteLabel">Favourites</a>
-    <hr class = "divider">
-    <a href="/" class = "panel-item" id="issuedLabel">Issued</a>
-    <hr class = "divider">
-    <a href="/" class = "panel-item" id="historyLabel">History</a>
-    <hr class = "divider">
-    <a href="/" class = "panel-item" id="bookLabel">Books</a>
-    <hr class = "divider">
-    <a href="{{url_for('genreEdit')}}" class = "panel-item" id="genreLabel">Genres</a>
-    <hr class = "divider">
-    <div class = "heading">Recents</div>
-    <div class = "panel-item">7</div>
-    <hr class = "divider">
-    <div class = "panel-item">8</div>
-    <hr class = "divider">
-    <div class = "panel-item">9</div>
-    <hr class = "divider">
-    <div class = "panel-item">10</div>
-    <hr class = "divider">
-    <div class = "panel-item">11</div>
-    <hr class = "divider">
-    <div class = "panel-item">12</div>
-    <hr class = "divider">
-    <div class = "panel-item">13</div>
-    <hr class = "divider">
-    <div class = "panel-item">14</div>
-    <hr class = "divider">
-    <div class = "panel-item">15</div>
-    {% else %}
-    <a href="{{url_for('studentDashboard')}}" class = "panel-item" id="homeLabel">Home</a>
-    <hr class = "divider">
-    <a href="/" class = "panel-item" id="favouriteLabel">Favourites</a>
-    <hr class = "divider">
-    <a href="/" class = "panel-item" id="issuedLabel">Issued</a>
-    <hr class = "divider">
-    <a href="/" class = "panel-item" id="historyLabel">History</a>
-    <hr class = "divider">
-    <div class = "panel-item">4</div>
-    <hr class = "divider">
-    <div class = "panel-item">5</div>
-    <hr class = "divider">
-    <div class = "panel-item">6</div>
-    <div class = "heading">Recents</div>
-    <div class = "panel-item">7</div>
-    <hr class = "divider">
-    <div class = "panel-item">8</div>
-    <hr class = "divider">
-    <div class = "panel-item">9</div>
-    <hr class = "divider">
-    <div class = "panel-item">10</div>
-    <hr class = "divider">
-    <div class = "panel-item">11</div>
-    <hr class = "divider">
-    <div class = "panel-item">12</div>
-    <hr class = "divider">
-    <div class = "panel-item">13</div>
-    <hr class = "divider">
-    <div class = "panel-item">14</div>
-    <hr class = "divider">
-    <div class = "panel-item">15</div>
-    {% endif %}
-{% endblock %}
-
 {% block rightContent %}
 <div class="book-page container">
   {% if deleteMsg %}
@@ -147,10 +80,16 @@
                       {% for review in reviews %}
                       <div class="card">
                         <div class="card-header">
-                          {{bookReviewers[review.id]}}
-                          {% if review.user_id == user.id %}
-                          <a href="{{url_for('deleteReview',reviewID = review.id)}}" class="btn btn-danger btn-sm">Del</a>
-                          {% endif %}
+                            <div class="header-content">
+                                {{bookReviewers[review.id]}}
+                            </div>
+                            {% if review.user_id == user.id %}
+                            <div class="delete-icon">
+                                <a href="{{url_for('deleteReview',reviewID = review.id)}}">
+                                    <img src="/static/images/delete.png" alt="Delete" class="delete-img" height="1vh" width="1vh">
+                                </a>
+                            </div>
+                            {% endif %}
                         </div>
                         <div class="card-body">
                           <blockquote class="blockquote mb-0">

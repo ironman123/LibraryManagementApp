@@ -20,6 +20,9 @@ class Favorite(db.Model):
     book_id = db.Column(db.Integer(),db.ForeignKey('book.id'),nullable=False)
     user_id = db.Column(db.Integer(),db.ForeignKey('user.id'),nullable=False)
 
+    book = db.relationship('Book', backref=db.backref('favourite', cascade='all, delete-orphan'))
+    user = db.relationship('User', backref=db.backref('favourite', cascade='all, delete-orphan'))
+
 class Book_Author(db.Model):
     __tablename__ = "book_author"
     book_id = db.Column(db.Integer(),db.ForeignKey('book.id'),primary_key=True)
@@ -78,6 +81,9 @@ class Issue(db.Model):
     return_date = db.Column(db.DateTime(),nullable = True)
     issue_period = db.Column(db.Integer(),nullable = True)
     status = db.Column(db.String(),nullable = False,default = 'requested')
+
+    book = db.relationship('Book', backref=db.backref('issue', cascade='all, delete-orphan'))
+    user = db.relationship('User', backref=db.backref('issue', cascade='all, delete-orphan'))
 
 class Genre(db.Model):
     __tablename__ = "genre"
