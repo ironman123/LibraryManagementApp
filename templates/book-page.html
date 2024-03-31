@@ -54,7 +54,7 @@
                   <div class="right-column">
                     <p class="book-desc" style="margin-top: 1vh;">{{book.description}}</p>
                     <div class="button-container">
-                        <a href="#" class="btn btn-warning" style="margin-top: 1vh; margin-bottom: 2vh;">Read</a>
+                        <a href="{{url_for('readDisp',bookID=book.id)}}" class="btn btn-warning" style="margin-top: 1vh; margin-bottom: 2vh;">Read</a>
                         <a href="{{url_for('returnBook',bookID=book.id)}}" class="btn btn-info" style="margin-top: 1vh; margin-bottom: 2vh;">Return</a>
                     </div>
                 </div>

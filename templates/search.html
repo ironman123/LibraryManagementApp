@@ -35,7 +35,7 @@
                         <div class="card-title">{{book.name}}</div>
                         <div class="card-text card-body">{{book.description}}</div>
                         <a href="{{url_for('issueBook',bookID=book.id)}}" class="btn btn-warning book-card-button" >Issue</a>
-                        <a href="{{url_for('librarianDashboard',bookID=book.id)}}" class="btn btn-info book-card-button" >Read</a>
+                        <a href="{{url_for('readDisp',bookID=book.id)}}" class="btn btn-info book-card-button" >Read</a>
                         {% if userType == "librarian" %}
                         <a href="{{url_for('deleteBook',bookID=book.id)}}" class="btn btn-danger book-card-button" >Delete</a>
                         {% endif %}

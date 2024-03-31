@@ -1,3 +1,10 @@
+document.addEventListener("DOMContentLoaded", function() {
+    var checkbox = document.getElementById('btn-check-2-outlined');
+    checkbox.addEventListener('change', function() {
+        toggleFlex(checkbox.checked);
+    });
+});
+
 function toggleFlex()
 {
     var checkbox = document.getElementById('btn-check-2-outlined');

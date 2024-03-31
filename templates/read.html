@@ -11,5 +11,7 @@
 {% endblock %}
 
 {% block rightContent %}
+    <object data="{{url_for('readPDF',bookName=bookName)}}" type="application/pdf" style="width: 75%; height: 86.76vh;">
 
+    </object>
 {% endblock %}
