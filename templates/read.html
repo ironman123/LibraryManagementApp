@@ -1,12 +1,16 @@
-{% if userType == "librarian" %}
+{% if user.type == "librarian" %}
 {% extends "librarian-dashboard.html" %}
 {% else %}
 {% extends "student-dashboard.html" %}
 {% endif %}
 
 {% block dashboardHead %}
-    <title>Yo</title>
+    <title>Read</title>
+    {% if user.type == "librarian" %}
     <link href="../static/styles/librarian-dashboard.css" rel="stylesheet">
+    {% else %}
+    <link href="../static/styles/student-dashboard.css" rel="stylesheet">
+    {% endif %}
     <link href="../static/styles/read-style.css" rel="stylesheet">
 {% endblock %}
 

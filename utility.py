@@ -196,7 +196,7 @@ def BookAdder(app,title,authors,genres,desc,file):
     
 
     if desc == "":
-            descError = "A small description is required!"
+        descError = "A small description is required!"
 
 
     if file.filename == "":
@@ -238,5 +238,5 @@ def BookAdder(app,title,authors,genres,desc,file):
         db.session.commit()
         return redirect(url_for('librarianDashboard'))
 
-
-    return render_template('addbook.html',title=title,authors=', '.join(authors),genres=allGenres,activeGenres=genres,genreText=', '.join(genres),desc=desc,titleError=titleError,authorsError=authorsError,fileError=fileError,genreError=genreError,descError=descError)
+    user = User.query.filter_by(id = session['userID'])
+    return render_template('addbook.html',title=title,authors=', '.join(authors),genres=allGenres,activeGenres=genres,genreText=', '.join(genres),desc=desc,titleError=titleError,authorsError=authorsError,fileError=fileError,genreError=genreError,descError=descError,user=user)
