@@ -159,6 +159,7 @@ def genreEdit():
         genresQuery = Genre.query.with_entities(Genre.name).all()
         allGenres = [name for (name,) in genresQuery]
         return render_template('genres.html', user=user, genres=allGenres,userType=userType,allBooks = Book.query.all())
+    
     if request.method == "POST":
         genreError=""
         genreSuccess=""
@@ -182,6 +183,8 @@ def genreEdit():
         elif(action == "edit"):
             if(genreName == ""):
                 genreError="Field Required!"
+            elif(':' not in genreName):
+                genreError="Seperator not present!"
             else:
                 genreFields = genreName.split(":")
                 genre = Genre.query.filter_by(name=genreFields[0]).first()
@@ -247,6 +250,8 @@ def authorEdit():
         elif(action == "edit"):
             if(authorName == ""):
                 authorError = "Field Required!"
+            elif(':' not in authorName):
+                authorError="Seperator not present!"
             else:
                 authorFields = authorName.split(":")
                 author = Author.query.filter_by(name=authorFields[0]).first()
