@@ -515,13 +515,12 @@ def issueBook(bookID):
         return redirect(url_for('librarianDashboard'))
 
     elif userType == "student":
-        if not issue or issue.status == "returned":
+        bookCount = Issue.query.filter(and_(Issue.user_id==userID,or_(Issue.status == "issued",Issue.status=="requested"))).count()
+        print(bookCount)
+        if (not issue or issue.status == "returned") and bookCount <= 5:
             session['issueMsg'] = "Requested:-> " + book.name
             requestDate = db.func.datetime(db.func.current_timestamp(),'+5 Hours','+30 Minutes')
-            #issueDate = db.func.current_timestamp()
-            #returnDate = db.func.datetime(db.func.current_timestamp(), '+7 Days')
             issue = Issue(book_id=bookID,user_id=userID,request_date=requestDate,issue_period=issuePeriod,status="requested")
-            print("Requested")
             db.session.add(issue)
             db.session.commit()
         elif issue.status == "requested":
@@ -532,10 +531,12 @@ def issueBook(bookID):
             session['deleteMsg'] = "Issue Request Rejected:-> " + book.name
         elif issue.status == "issued":
             session['deleteMsg'] = "Already Issued:-> " + book.name
+        elif bookCount > 5:
+            session['deleteMsg'] = "Max Issue Limit Reached!!!"
 
         return redirect(url_for('studentDashboard'))
     #useless redirect should delete later
-    return redirect(url_for('librarianDashboard'))
+    #return redirect(url_for('librarianDashboard'))
 
 @app.route('/requests')
 @login_required
@@ -726,7 +727,7 @@ def requestProcessor(issueID,action):
                     db.session.commit()
                     session["deleteMsg"] = "Removed!!!"
                 else:
-                    session["deleteMsg"] = "Invalid Action for Returned!!!"
+                    session["deleteMsg"] = "Invalid Action for Rejected!!!"
         elif session["userType"] == "student":
             if issue.status == "requested":
                 if action == "remove":
@@ -734,7 +735,7 @@ def requestProcessor(issueID,action):
                     db.session.commit()
                     session["deleteMsg"] = "Removed!!!"
                 else:
-                    session["deleteMsg"] = "Invalid Action for Returned!!!"
+                    session["deleteMsg"] = "Invalid Action for Requested!!!"
     return redirect(url_for('requestsHandler'))
     
 
