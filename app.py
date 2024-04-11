@@ -515,14 +515,18 @@ def issueBook(bookID):
         return redirect(url_for('librarianDashboard'))
 
     elif userType == "student":
-        bookCount = Issue.query.filter(and_(Issue.user_id==userID,or_(Issue.status == "issued",Issue.status=="requested"))).count()
+        bookCount = Issue.query.filter(and_(Issue.user_id == userID, or_(Issue.status == "issued", Issue.status == "requested"))).count()
         print(bookCount)
-        if (not issue or issue.status == "returned") and bookCount <= 5:
-            session['issueMsg'] = "Requested:-> " + book.name
-            requestDate = db.func.datetime(db.func.current_timestamp(),'+5 Hours','+30 Minutes')
-            issue = Issue(book_id=bookID,user_id=userID,request_date=requestDate,issue_period=issuePeriod,status="requested")
-            db.session.add(issue)
-            db.session.commit()
+        if not issue or issue.status == "returned":
+            if (bookCount < 3):
+                print("requesting book")
+                session['issueMsg'] = "Requested:-> " + book.name
+                requestDate = db.func.datetime(db.func.current_timestamp(),'+5 Hours','+30 Minutes')
+                issue = Issue(book_id=bookID,user_id=userID,request_date=requestDate,issue_period=issuePeriod,status="requested")
+                db.session.add(issue)
+                db.session.commit()
+            else:
+                session['deleteMsg'] = "Max Issue Limit Reached!!!"
         elif issue.status == "requested":
             session['issueMsg'] = "Already Requested:-> " + book.name
         elif issue.status == "revoked":
@@ -531,10 +535,9 @@ def issueBook(bookID):
             session['deleteMsg'] = "Issue Request Rejected:-> " + book.name
         elif issue.status == "issued":
             session['deleteMsg'] = "Already Issued:-> " + book.name
-        elif bookCount > 5:
-            session['deleteMsg'] = "Max Issue Limit Reached!!!"
+            
+    return redirect(url_for('studentDashboard'))
 
-        return redirect(url_for('studentDashboard'))
     #useless redirect should delete later
     #return redirect(url_for('librarianDashboard'))
 
