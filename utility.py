@@ -42,7 +42,10 @@ def return_books():
 def FixText(str):
     if str == "":
         return ""
-    return re.sub(' +',' ',str)
+    str = re.sub(' +',' ',str)
+    str = re.sub('- +','-',str)
+    str = re.sub(' +-','-',str)
+    return str
 
 def IsEmailValid(email):
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'

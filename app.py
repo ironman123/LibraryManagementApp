@@ -168,6 +168,8 @@ def genreEdit():
         if(action == "add"):
             if(genreName == ""):
                 genreError="Field Required!"
+            elif(':' in genreName):
+                genreError="Invalid Character in Name!"
             else:
                 genre = Genre.query.filter_by(name=genreName).first()
                 if(not genre):
@@ -177,7 +179,20 @@ def genreEdit():
                     genreSuccess=genreName+" added*"
                 else:
                     genreError="Genre Already Exists!"
-
+        elif(action == "edit"):
+            if(genreName == ""):
+                genreError="Field Required!"
+            else:
+                genreFields = genreName.split(":")
+                genre = Genre.query.filter_by(name=genreFields[0]).first()
+                if genreFields[1] == "":
+                    genreError="Change Field Required!"
+                elif(genre):
+                    genre.name = genreFields[1].title()
+                    db.session.commit()
+                    genreSuccess=genreFields[0]+" changed to-> " + genreFields[1]
+                else:
+                    genreError="Genre Does Not Exists!"
         elif(action == 'delete'):
             if(genreName == ""):
                 genreError="Field Required!"
@@ -218,6 +233,8 @@ def authorEdit():
         if(action == "add"):
             if(authorName == ""):
                 authorError="Field Required!"
+            elif(':' in authorName):
+                authorError="Invalid Character in Name!"
             else:
                 author = Author.query.filter_by(name=authorName).first()
                 if(not author):
@@ -227,6 +244,20 @@ def authorEdit():
                     authorSuccess=authorName+" added*"
                 else:
                     authorError="Author Already Exists!"
+        elif(action == "edit"):
+            if(authorName == ""):
+                authorError = "Field Required!"
+            else:
+                authorFields = authorName.split(":")
+                author = Author.query.filter_by(name=authorFields[0]).first()
+                if authorFields[1] == "":
+                    authorError = "Change Field Required!"
+                elif(author):
+                    author.name = authorFields[1].title()
+                    db.session.commit()
+                    authorSuccess = authorFields[0]+ " changed to-> " + authorFields[1]
+                else:
+                    authorError="Author Does Not Exists!"
         elif(action=="delete"):
             if(authorName==""):
                 authorError="Field Required!"
